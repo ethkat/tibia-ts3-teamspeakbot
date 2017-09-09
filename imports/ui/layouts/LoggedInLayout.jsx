@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import LoggedOutNav from '/imports/ui/components/core/LoggedOutNav';
+import LoggedInNav from '/imports/ui/components/core/LoggedInNav';
 
-class LoggedOutLayout extends React.Component {
+class LoggedInLayout extends React.Component {
   componentWillMount() {
     this.loginUser();
   }
@@ -21,23 +21,25 @@ class LoggedOutLayout extends React.Component {
     const { loggedIn } = this.props;
     return () => loggedIn;
   }
+
   render() {
     const { children } = this.props;
     return (
       <div>
-        <LoggedOutNav />
+        <LoggedInNav />
         {children}
       </div>
     );
   }
 }
 
-LoggedOutLayout.defaultProps = {
+LoggedInLayout.defaultProps = {
   loggedIn: false,
 };
 
-LoggedOutLayout.propTypes = {
+LoggedInLayout.propTypes = {
   children: PropTypes.element.isRequired,
   loggedIn: PropTypes.bool,
 };
-export default LoggedOutLayout;
+
+export default LoggedInLayout;

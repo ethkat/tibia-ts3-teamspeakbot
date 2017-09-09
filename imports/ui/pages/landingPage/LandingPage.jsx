@@ -1,9 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const LandingPage = props => (
-  <div className="container-fluid">
-    <h1>Welcome</h1>
+const LandingPage = () => (
+  <div>
+    <h1>Landing Page</h1>
   </div>
 );
 

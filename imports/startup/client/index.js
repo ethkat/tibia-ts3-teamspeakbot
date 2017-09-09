@@ -2,9 +2,8 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 
-import Routes from './routes';
+import Routes from '/imports/startup/client/Routes.jsx';
 
 Meteor.startup(() => {
-  // eslint-disable-next-line no-undef
   render(<Routes />, document.getElementById('render-target'));
 });
