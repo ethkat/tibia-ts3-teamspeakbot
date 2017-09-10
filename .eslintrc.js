@@ -40,6 +40,7 @@ module.exports = {
   ],
   // add your custom rules here
   'rules': {
+    'no-class-assign': 'off',
     'react/jsx-indent': 'off',
     'import/extensions': ['off', 'never'],
     'jsx-a11y/href-no-hash': 'off',

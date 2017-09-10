@@ -24,3 +24,4 @@ react-meteor-data
 accounts-base
 accounts-password
 themeteorchef:bert
+mdg:validated-method

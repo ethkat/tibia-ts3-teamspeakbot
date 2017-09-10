@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import './style.css';
+import '/imports/ui/pages/ForgotPassword/style';
 
 const authors = [{
   name: 'Ethan Escareño Rosano',
