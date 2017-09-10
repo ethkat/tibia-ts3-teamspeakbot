@@ -75,8 +75,7 @@ BotsListContainer.propTypes = {
 };
 
 BotsListContainer = createContainer(() => {
-  const owner = Meteor.userId();
-  const botsHandle = Meteor.subscribe('bots.get', { owner });
+  const botsHandle = Meteor.subscribe('bots.get');
 
   return {
     bots: Bots.find().fetch(),

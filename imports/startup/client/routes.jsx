@@ -12,6 +12,7 @@ import {
 import LoggedInLayout from '/imports/ui/layouts/LoggedInLayout';
 import LoggedOutLayout from '/imports/ui/layouts/LoggedOutLayout';
 
+import BotPage from '/imports/ui/pages/BotsPage/BotPage';
 import BotsPage from '/imports/ui/pages/BotsPage/BotsPage';
 import LoginPage from '/imports/ui/pages/LoginPage/LoginPage';
 import LandingPage from '/imports/ui/pages/LandingPage/LandingPage';
@@ -33,6 +34,7 @@ export default () => (
       <Route path="/dashboard" component={LoggedInLayout}>
         <IndexRedirect to="bots" />
         <Route path="bots" component={BotsPage} />
+        <Route path="bots/:_id" component={BotPage} />
       </Route>
     </Router>
   </Provider>

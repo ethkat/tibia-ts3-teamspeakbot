@@ -10,6 +10,7 @@ const BotsList = ({ bots }) => (
     {bots.map(({ _id, name, world, server, createdAt }) => (
       <div className="row" key={_id}>
         <BotListItem
+          _id={_id}
           name={name}
           world={world}
           server={server}
