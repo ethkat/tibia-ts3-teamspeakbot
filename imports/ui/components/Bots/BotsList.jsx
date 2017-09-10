@@ -7,10 +7,13 @@ import '/imports/ui/components/Bots/style';
 
 const BotsList = ({ bots }) => (
   <div className="bots-list__parent">
-    {bots.map(({ _id, name }) => (
+    {bots.map(({ _id, name, world, server, createdAt }) => (
       <div className="row" key={_id}>
         <BotListItem
           name={name}
+          world={world}
+          server={server}
+          createdAt={createdAt}
         />
       </div>
     ))}

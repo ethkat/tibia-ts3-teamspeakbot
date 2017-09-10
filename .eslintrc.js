@@ -46,6 +46,7 @@ module.exports = {
     'jsx-a11y/href-no-hash': 'off',
     'jsx-a11y/label-has-for': 'off',
     'react/forbid-prop-types': 'off',
+    'import/no-mutable-exports': 'off',
     'import/prefer-default-export': 'off',
     'import/no-extraneous-dependencies': 'off',
     'jsx-a11y/anchor-is-valid': ['warn', { 'aspects': ['invalidHref'] }]

@@ -1,16 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm, Field } from 'redux-form';
+import { connect } from 'react-redux';
+import { Field, reduxForm, formValueSelector } from 'redux-form';
 
+import { SERVERS, WORLDS_BY_SERVER } from '/imports/utils/constants';
 import { buildValidation } from '/imports/ui/utils/forms';
 import Button from '/imports/ui/components/Forms/core/Button';
 import TextInput from '/imports/ui/components/Forms/core/TextInput';
+import SelectField from '/imports/ui/components/Forms/core/SelectField';
 
 import NewBotFormSchema from '/imports/api/models/forms/NewBotForm';
 
 import '/imports/ui/stylesheets/buttons';
 
-const NewBotForm = ({ handleSubmit }) => (
+const serverSelectOptions = SERVERS.map(server => ({
+  key: server,
+  value: server,
+}));
+
+const getWorldServer = (option) => {
+  const worlds = WORLDS_BY_SERVER[option];
+  return worlds.map(world => ({
+    key: world,
+    value: world,
+  }));
+};
+
+let NewBotForm = ({ server, handleSubmit }) => (
   <form onSubmit={handleSubmit} className="">
     <div className="form-group">
       <Field
@@ -22,6 +38,29 @@ const NewBotForm = ({ handleSubmit }) => (
       />
     </div>
     <div className="form-group">
+      <Field
+        name="server"
+        type="text"
+        label="Server"
+        options={serverSelectOptions}
+        placeholder="Server"
+        component={SelectField}
+      />
+    </div>
+    {
+      server ?
+        <div className="form-group">
+          <Field
+            name="world"
+            type="text"
+            label="World"
+            options={getWorldServer(server)}
+            placeholder="World"
+            component={SelectField}
+          />
+        </div> : null
+    }
+    <div className="form-group">
       <Button
         type="submit"
         text="Create"
@@ -32,16 +71,28 @@ const NewBotForm = ({ handleSubmit }) => (
 );
 
 NewBotForm.defaultProps = {
+  server: 'tibiaRL',
   handleSubmit: () => {},
 };
 
 NewBotForm.propTypes = {
+  server: PropTypes.string,
   handleSubmit: PropTypes.func,
 };
 
-export default reduxForm({
-  form: 'NewBotForm',
+const form = 'NewBotForm';
+NewBotForm = reduxForm({
+  form,
   validate: buildValidation({
     validator: NewBotFormSchema,
   }),
 })(NewBotForm);
+
+const selector = formValueSelector(form);
+
+NewBotForm = connect((state) => {
+  const server = selector(state, 'server');
+  return { server };
+})(NewBotForm);
+
+export default NewBotForm;
