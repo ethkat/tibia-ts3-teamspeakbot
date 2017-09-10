@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Meteor } from 'meteor/meteor';
+import { bindActionCreators } from 'redux';
+import { createContainer } from 'meteor/react-meteor-data';
 
+import * as redirectActions from '/imports/ui/actions/redirect';
 import LoggedOutNav from '/imports/ui/components/core/LoggedOutNav';
 
 class LoggedOutLayout extends React.Component {
@@ -12,15 +17,14 @@ class LoggedOutLayout extends React.Component {
     this.loginUser();
   }
 
-  isLoggedIn() {
-    const { loggedIn } = this.props;
-    return loggedIn;
+  loginUser() {
+    const { actions, loggedIn } = this.props;
+    if (loggedIn) {
+      actions.redirectTo({ to: '/dashboard' });
+    }
   }
 
-  loginUser() {
-    const { loggedIn } = this.props;
-    return () => loggedIn;
-  }
+
   render() {
     const { children } = this.props;
     return (
@@ -33,11 +37,26 @@ class LoggedOutLayout extends React.Component {
 }
 
 LoggedOutLayout.defaultProps = {
+  actions: {},
   loggedIn: false,
 };
 
 LoggedOutLayout.propTypes = {
+  actions: PropTypes.object,
   children: PropTypes.element.isRequired,
   loggedIn: PropTypes.bool,
 };
+
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(redirectActions, dispatch),
+});
+
+LoggedOutLayout = createContainer(() => ({
+  loggedIn: !!Meteor.userId(),
+}), LoggedOutLayout);
+
+LoggedOutLayout = connect(mapStateToProps, mapDispatchToProps)(LoggedOutLayout);
+
 export default LoggedOutLayout;

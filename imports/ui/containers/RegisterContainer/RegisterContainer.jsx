@@ -20,9 +20,9 @@ class RegisterContainer extends React.Component {
     this.onRegister = this.onRegister.bind(this);
   }
 
-  onRegister({ user, password }) {
+  onRegister({ email, password }) {
     const { actions } = this.props;
-    actions.registerUser({ user, password });
+    actions.registerUser({ email, password });
   }
 
   render() {

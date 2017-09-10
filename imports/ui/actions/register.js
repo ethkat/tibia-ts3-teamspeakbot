@@ -9,7 +9,7 @@ export const registerUser = ({
     Accounts.createUser({
       email,
       password,
-      username: `bot-user-${email}`,
+      username: email,
     }, (error) => {
       if (error) {
         const { message } = error;
