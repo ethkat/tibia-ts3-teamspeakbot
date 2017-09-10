@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
@@ -10,7 +11,7 @@ import BotConfigurationContainerStep1 from '/imports/ui/containers/BotConfigurat
 
 const calculateStepByData = ({ queryUser }) => {
   let step = 0;
-  if (!queryUser) step = 1;
+  if (_.isEmpty(queryUser)) step = 1;
   return step;
 };
 
