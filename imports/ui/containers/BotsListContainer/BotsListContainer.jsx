@@ -37,11 +37,11 @@ class BotsListContainer extends React.Component {
   }
 
   render() {
-    const { bots, isModalOpen } = this.props;
+    const { bots, isOpen } = this.props;
     return (
       <div className="container">
         <Modal
-          isOpen={isModalOpen}
+          isOpen={isOpen}
           onRequestClose={this.onCloseModal}
           contentLabel="Bot Data"
         >
@@ -64,14 +64,14 @@ class BotsListContainer extends React.Component {
 
 BotsListContainer.defaultProps = {
   bots: [],
+  isOpen: false,
   actions: {},
-  isModalOpen: false,
 };
 
 BotsListContainer.propTypes = {
   bots: PropTypes.array,
+  isOpen: PropTypes.bool,
   actions: PropTypes.object,
-  isModalOpen: PropTypes.bool,
 };
 
 BotsListContainer = createContainer(() => {
@@ -83,9 +83,10 @@ BotsListContainer = createContainer(() => {
   };
 }, BotsListContainer);
 
-const mapStateToProps = ({ bots }) => ({
-  isModalOpen: bots.isOpen,
-});
+const mapStateToProps = ({ bots }) => {
+  const { isOpen } = bots;
+  return { isOpen };
+};
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(botActions, dispatch),

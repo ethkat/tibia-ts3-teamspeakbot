@@ -6,7 +6,7 @@ import BotConfigurationContainer from '/imports/ui/containers/BotConfigurationCo
 const BotPage = ({ params }) => {
   const { _id } = params;
   return (
-    <div>
+    <div className="container">
       <BotConfigurationContainer
         _id={_id}
       />

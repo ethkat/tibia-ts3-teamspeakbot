@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 
-import { SERVERS, WORLDS_BY_SERVER } from '/imports/utils/constants';
 import { buildValidation } from '/imports/ui/utils/forms';
 import Button from '/imports/ui/components/Forms/core/Button';
+import { normalizeNumber } from '/imports/ui/utils/form-helpers';
 import TextInput from '/imports/ui/components/Forms/core/TextInput';
+import { SERVERS, WORLDS_BY_SERVER } from '/imports/utils/constants';
 import SelectField from '/imports/ui/components/Forms/core/SelectField';
 
 import NewBotFormSchema from '/imports/api/models/forms/NewBotForm';
@@ -34,6 +35,25 @@ let NewBotForm = ({ server, handleSubmit }) => (
         type="text"
         label="Bot name"
         placeholder="Bot name"
+        component={TextInput}
+      />
+    </div>
+    <div className="form-group">
+      <Field
+        name="address"
+        type="text"
+        label="TS3 Address"
+        placeholder="TS3 Address"
+        component={TextInput}
+      />
+    </div>
+    <div className="form-group">
+      <Field
+        name="port"
+        type="number"
+        label="TS3 Address PORT"
+        normalize={normalizeNumber}
+        placeholder="TS3 Address PORT"
         component={TextInput}
       />
     </div>
