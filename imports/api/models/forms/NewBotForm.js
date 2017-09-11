@@ -6,4 +6,5 @@ export default new SimpleSchema({
   world: String,
   server: String,
   address: String,
+  serverId: String,
 });

@@ -1,87 +1,116 @@
+import _ from 'lodash';
 import React from 'react';
-import Modal from 'react-modal';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Meteor } from 'meteor/meteor';
 import { bindActionCreators } from 'redux';
+import { createContainer } from 'meteor/react-meteor-data';
+import TeamspeakChannelList from '/imports/ui/components/TeamspeakChannelList/TeamspeakChannelList';
+import ResetTeamspeakMasterChannels from '/imports/ui/components/BotConfiguration/ResetTeamspeakMasterChannels';
 
-import * as serverQueryUsersActions from '/imports/ui/actions/serverQueryUsers';
-
-import Button from '/imports/ui/components/Forms/core/Button';
-import NewServerQueryUserForm from '/imports/ui/components/Forms/NewServerQueryUserForm';
+import { Channels } from '/imports/api/bots/Channels';
+import * as botConfigurationActions from '/imports/ui/actions/botConfiguration';
 
 class BotConfigurationContainerStep1 extends React.Component {
   constructor(props) {
     super(props);
 
-    this.onOpenModal = this.onOpenModal.bind(this);
-    this.onCloseModal = this.onCloseModal.bind(this);
-    this.onSubmitServerQueryUser = this.onSubmitServerQueryUser.bind(this);
+    this.onSelectChannel = this.onSelectChannel.bind(this);
+    this.onDeleteMasterChannel = this.onDeleteMasterChannel.bind(this);
+    this.onAcceptMasterChannel = this.onAcceptMasterChannel.bind(this);
+    this.onCreateMasterChannels = this.onCreateMasterChannels.bind(this);
   }
 
-  onOpenModal() {
-    const { actions } = this.props;
-    actions.openNewServerQueryUserModal();
-  }
-
-  onCloseModal() {
-    const { actions } = this.props;
-    actions.openNewServerQueryUserModal({ isOpen: false });
-  }
-
-  onSubmitServerQueryUser(user) {
+  componentDidMount() {
     const { _id: botId, actions } = this.props;
-    actions.insertServerQueryUser({
-      user: { ...user, botId },
-    }, () => this.onCloseModal());
+    actions.getTeamspeakChannels({ botId });
+  }
+
+  onSelectChannel({ cid }) {
+    const { actions } = this.props;
+    actions.selectChannel({ selectedChannel: cid });
+  }
+
+  onCreateMasterChannels() {
+    const { _id: botId, actions, selectedChannel } = this.props;
+    actions.createMasterChannels({ botId, selectedChannel });
+  }
+
+  onDeleteMasterChannel() {
+    const { _id: botId, actions } = this.props;
+    actions.onDeleteMasterChannels({ botId });
+  }
+
+  onAcceptMasterChannel() {
+    const { bot, actions } = this.props;
+    actions.onUpdateBot({
+      bot: {
+        ...bot,
+        configSetup: true,
+      },
+    });
   }
 
   render() {
-    const { isOpen } = this.props;
+    const { masterChannels, selectedChannel, teamspeakChannels } = this.props;
 
     return (
       <div>
-        <Modal
-          isOpen={isOpen}
-          onRequestClose={this.onCloseModal}
-          contentLabel="Bot Data"
-        >
-          <h1>ServerQuery User Data</h1>
-          <NewServerQueryUserForm
-            onSubmit={this.onSubmitServerQueryUser}
-          />
-        </Modal>
-        <div className="alert alert-warning" role="alert">
-          Seems like you dont put yet any kind of ServerQuery User
-        </div>
-        <div>
-          <Button
-            text="Add User"
-            onClick={this.onOpenModal}
-          />
-        </div>
+        {
+          !_.isEmpty(masterChannels) ?
+            <div>
+              <ResetTeamspeakMasterChannels
+                onDelete={this.onDeleteMasterChannel}
+                onAccept={this.onAcceptMasterChannel}
+              />
+            </div> :
+            <TeamspeakChannelList
+              selectChannel={this.onSelectChannel}
+              selectedChannel={selectedChannel}
+              teamspeakChannels={teamspeakChannels}
+              createMasterChannels={this.onCreateMasterChannels}
+            />
+        }
       </div>
     );
   }
 }
 
 BotConfigurationContainerStep1.defaultProps = {
-  isOpen: false,
+  bot: {},
   actions: {},
+  masterChannels: {},
+  selectedChannel: 0,
+  teamspeakChannels: [],
 };
 
 BotConfigurationContainerStep1.propTypes = {
   _id: PropTypes.string.isRequired,
-  isOpen: PropTypes.bool,
+  bot: PropTypes.object,
   actions: PropTypes.object,
+  masterChannels: PropTypes.object,
+  selectedChannel: PropTypes.number,
+  teamspeakChannels: PropTypes.array,
 };
 
-const mapStateToProps = ({ serverQueryUsers }) => {
-  const { isOpen } = serverQueryUsers;
-  return { isOpen };
+BotConfigurationContainerStep1 = createContainer(({ _id }) => {
+  const handleChannels = Meteor.subscribe('channels.get', { _id });
+
+  return {
+    channelsReady: handleChannels.ready(),
+    masterChannels: Channels.findOne({
+      channelType: 'master',
+    }),
+  };
+}, BotConfigurationContainerStep1);
+
+const mapStateToProps = ({ botConfiguration }) => {
+  const { selectedChannel, teamspeakChannels } = botConfiguration;
+  return { selectedChannel, teamspeakChannels };
 };
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(serverQueryUsersActions, dispatch),
+  actions: bindActionCreators(botConfigurationActions, dispatch),
 });
 
 BotConfigurationContainerStep1 = connect(

@@ -41,7 +41,14 @@ module.exports = {
   // add your custom rules here
   'rules': {
     'no-class-assign': 'off',
+    'no-await-in-loop': 'off',
     'react/jsx-indent': 'off',
+    'no-restricted-syntax': [
+      'error',
+      'ForInStatement',
+      'LabeledStatement',
+      'WithStatement',
+    ],
     'import/extensions': ['off', 'never'],
     'jsx-a11y/href-no-hash': 'off',
     'jsx-a11y/label-has-for': 'off',

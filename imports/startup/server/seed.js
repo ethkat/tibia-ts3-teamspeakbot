@@ -37,13 +37,14 @@ export default () => {
 
       if (testDataExists) {
         console.log(`### Creating Seed Data from TEST_DATA, a total of ${TEST_DATA.length} bots ###`);
-        TEST_DATA.forEach(({ bot, user, server }) => {
+        TEST_DATA.forEach(({ bot, user, server, serverId }) => {
           const world = worldsByServer[server];
           Bots.insert({
             name: `${server}-${world} BOT WITH DATA`,
             world,
             owner: userId,
             server,
+            serverId,
             ...bot,
           }, (error, botId) => {
             ServerQueryUsers.insert({

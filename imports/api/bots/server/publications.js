@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 import { Bots } from '/imports/api/bots/Bots';
+import { Channels } from '/imports/api/bots/Channels';
 import { ServerQueryUsers } from '/imports/api/bots/ServerQueryUsers';
 
 Meteor.publish('bot.get', function({ _id }) {
@@ -15,4 +16,8 @@ Meteor.publish('bots.get', function() {
 
 Meteor.publish('queryUser.get', function({ botId }) {
   return ServerQueryUsers.find({ botId });
+});
+
+Meteor.publish('channels.get', function({ _id: botId }) {
+  return Channels.find({ botId });
 });

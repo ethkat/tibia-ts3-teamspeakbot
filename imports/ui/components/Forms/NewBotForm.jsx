@@ -19,6 +19,12 @@ const serverSelectOptions = SERVERS.map(server => ({
   value: server,
 }));
 
+serverSelectOptions.unshift({
+  key: null,
+  value: '-Select a server-',
+});
+
+
 const getWorldServer = (option) => {
   const worlds = WORLDS_BY_SERVER[option];
   return worlds.map(world => ({
@@ -44,6 +50,15 @@ let NewBotForm = ({ server, handleSubmit }) => (
         type="text"
         label="TS3 Address"
         placeholder="TS3 Address"
+        component={TextInput}
+      />
+    </div>
+    <div className="form-group">
+      <Field
+        name="serverId"
+        type="text"
+        label="Server ID"
+        placeholder="Server ID"
         component={TextInput}
       />
     </div>
@@ -91,7 +106,7 @@ let NewBotForm = ({ server, handleSubmit }) => (
 );
 
 NewBotForm.defaultProps = {
-  server: 'tibiaRL',
+  server: '',
   handleSubmit: () => {},
 };
 

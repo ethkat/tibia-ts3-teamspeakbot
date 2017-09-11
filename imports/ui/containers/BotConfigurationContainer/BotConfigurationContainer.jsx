@@ -8,28 +8,32 @@ import { Bots } from '/imports/api/bots/Bots';
 import { ServerQueryUsers } from '/imports/api/bots/ServerQueryUsers';
 import BotConfigurationContainerStep0 from '/imports/ui/containers/BotConfigurationContainer/BotConfigurationContainerStep0';
 import BotConfigurationContainerStep1 from '/imports/ui/containers/BotConfigurationContainer/BotConfigurationContainerStep1';
+import BotConfigurationContainerStep2 from '/imports/ui/containers/BotConfigurationContainer/BotConfigurationContainerStep2';
 
-const calculateStepByData = ({ queryUser }) => {
-  let step = 0;
-  if (_.isEmpty(queryUser)) step = 1;
+const calculateStepByData = ({ queryUser, configSetup }) => {
+  let step = 2;
+
+  if (_.isEmpty(queryUser)) step = 0;
+  else if (!configSetup) step = 1;
   return step;
 };
 
 const containersByStep = {
   0: BotConfigurationContainerStep0,
   1: BotConfigurationContainerStep1,
+  2: BotConfigurationContainerStep2,
 };
 
 let BotConfigurationContainer = ({ bot, botReady, queryUser }) => {
-  const { _id } = bot;
-  const step = calculateStepByData({ queryUser });
+  const { _id, configSetup } = bot;
+  const step = calculateStepByData({ queryUser, configSetup });
   const ContainerStep = containersByStep[step];
 
   return (
     <div>
       {
         botReady ?
-          <ContainerStep _id={_id} /> :
+          <ContainerStep _id={_id} bot={bot} /> :
           ''
       }
     </div>
