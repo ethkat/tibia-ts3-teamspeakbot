@@ -4,54 +4,45 @@ import { Field, reduxForm } from 'redux-form';
 
 import { buildValidation } from '/imports/ui/utils/forms';
 import Button from '/imports/ui/components/Forms/core/Button';
+import NewListFormSchema from '/imports/api/models/forms/NewListForm';
 import TextInput from '/imports/ui/components/Forms/core/TextInput';
-import NewServerQueryUserFormSchema from '/imports/api/models/forms/NewServerQueryUserForm';
 
 import '/imports/ui/stylesheets/buttons';
 
-let NewServerQueryUserForm = ({ handleSubmit }) => (
+let NewListForm = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit} className="">
     <div className="form-group">
       <Field
-        name="username"
+        name="name"
         type="text"
-        label="username"
-        placeholder="username"
-        component={TextInput}
-      />
-    </div>
-    <div className="form-group">
-      <Field
-        name="password"
-        type="password"
-        label="password"
-        placeholder="password"
+        label="List name"
+        placeholder="List name"
         component={TextInput}
       />
     </div>
     <div className="form-group">
       <Button
         type="submit"
-        text="Create"
+        text="Create List"
         klass="full-button"
       />
     </div>
   </form>
 );
 
-NewServerQueryUserForm.defaultProps = {
+NewListForm.defaultProps = {
   handleSubmit: () => {},
 };
 
-NewServerQueryUserForm.propTypes = {
+NewListForm.propTypes = {
   handleSubmit: PropTypes.func,
 };
 
-NewServerQueryUserForm = reduxForm({
-  form: 'NewServerQueryUserForm',
+NewListForm = reduxForm({
+  form: 'NewListForm',
   validate: buildValidation({
-    validator: NewServerQueryUserFormSchema,
+    validator: NewListFormSchema,
   }),
-})(NewServerQueryUserForm);
+})(NewListForm);
 
-export default NewServerQueryUserForm;
+export default NewListForm;

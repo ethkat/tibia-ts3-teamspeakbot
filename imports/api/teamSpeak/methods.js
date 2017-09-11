@@ -126,3 +126,50 @@ export const deleteMasterChannels = new ValidatedMethod({
     return channels.forEach(({ _id }) => Channels.remove({ _id }));
   },
 });
+
+export const createNormalChannel = new ValidatedMethod({
+  name: 'teamspeak.channels.createNormalChannel',
+  validate: new SimpleSchema({
+    list: {
+      type: Object,
+      blackbox: true,
+    },
+    botId: {
+      type: String,
+    },
+  }).validator(),
+  async run({ list, botId }) {
+    const bot = Bots.findOne({ _id: botId });
+    const queryUser = ServerQueryUsers.findOne({ botId });
+    const masterChannel = Channels.findOne({
+      botId,
+      channelType: 'master',
+    });
+    const { username, password } = queryUser;
+    const { port, address, serverId } = bot;
+
+    const teamspeak = await loginToServerQuery({
+      serverId,
+      username,
+      password,
+      teamspeak: initTeamspeakClient({ port, address }),
+    });
+
+    const { name } = list;
+    const { cid: cpid } = masterChannel;
+
+    const channel = await createChannel({
+      channel: { cpid, channel_name: name },
+      teamspeak,
+    });
+
+    const { cid } = channel;
+
+    return Channels.insert({
+      cid,
+      botId,
+      channelName: name,
+      channelType: 'normal',
+    });
+  },
+});
