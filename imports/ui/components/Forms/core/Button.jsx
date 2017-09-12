@@ -11,6 +11,7 @@ const Button = ({
   onClick,
 }) => (
   <button
+    style={{ cursor: 'pointer' }}
     type={type}
     onClick={onClick}
     className={getButtonClass({ klass, theme })}

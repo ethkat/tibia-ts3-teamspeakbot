@@ -28,3 +28,22 @@ export const createList = ({ list, botId }, cb) => (
     });
   }
 );
+
+export const deleteList = ({ _id, botId }) => (
+  (dispatch) => {
+    Meteor.call('teamspeak.channels.delete.list', { _id, botId }, (error) => {
+      if (error) {
+        const { message } = error;
+        dispatch(showAlert({
+          type: 'danger',
+          message,
+        }));
+      } else {
+        dispatch(showAlert({
+          type: 'success',
+          message: 'List Removed',
+        }));
+      }
+    });
+  }
+);

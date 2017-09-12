@@ -173,3 +173,39 @@ export const createNormalChannel = new ValidatedMethod({
     });
   },
 });
+
+export const deleteChannelList = new ValidatedMethod({
+  name: 'teamspeak.channels.delete.list',
+  validate: new SimpleSchema({
+    _id: {
+      type: String,
+    },
+    botId: {
+      type: String,
+    },
+  }).validator(),
+  async run({ _id, botId }) {
+    const bot = Bots.findOne({ _id: botId });
+    const queryUser = ServerQueryUsers.findOne({ botId });
+    const channelToDelete = Channels.findOne({ _id });
+
+    const { username, password } = queryUser;
+    const { port, address, serverId } = bot;
+
+    const teamspeak = await loginToServerQuery({
+      serverId,
+      username,
+      password,
+      teamspeak: initTeamspeakClient({ port, address }),
+    });
+
+    const { cid } = channelToDelete;
+
+    await deleteChannel({
+      cid,
+      teamspeak,
+    });
+
+    return Channels.remove({ _id });
+  },
+});
