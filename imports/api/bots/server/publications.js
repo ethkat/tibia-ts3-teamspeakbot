@@ -18,6 +18,10 @@ Meteor.publish('queryUser.get', function({ botId }) {
   return ServerQueryUsers.find({ botId });
 });
 
+Meteor.publish('channel.get', function({ _id }) {
+  return Channels.find({ _id });
+});
+
 Meteor.publish('channels.get', function({ _id: botId }) {
   return Channels.find({ botId, channelType: 'normal' });
 });

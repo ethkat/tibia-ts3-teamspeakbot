@@ -10,6 +10,7 @@ import ChannelList from '/imports/ui/components/ChannelList/ChannelList';
 import { Channels } from '/imports/api/bots/Channels';
 import * as listActions from '/imports/ui/actions/lists';
 import Button from '/imports/ui/components/Forms/core/Button';
+import * as redirectActions from '/imports/ui/actions/redirect';
 import NewListForm from '/imports/ui/components/Forms/NewListForm';
 
 class BotConfigurationContainerStep2 extends React.Component {
@@ -20,6 +21,7 @@ class BotConfigurationContainerStep2 extends React.Component {
     this.onDeleteList = this.onDeleteList.bind(this);
     this.onCloseModal = this.onCloseModal.bind(this);
     this.onCreateList = this.onCreateList.bind(this);
+    this.onViewChannel = this.onViewChannel.bind(this);
   }
 
   onCreateList(list) {
@@ -40,6 +42,11 @@ class BotConfigurationContainerStep2 extends React.Component {
   onCloseModal() {
     const { actions } = this.props;
     actions.openNewListModal({ isModalOpen: false });
+  }
+
+  onViewChannel({ _id }) {
+    const { actions } = this.props;
+    actions.redirectTo({ to: `/dashboard/view-list/${_id}` });
   }
 
   render() {
@@ -69,6 +76,7 @@ class BotConfigurationContainerStep2 extends React.Component {
             <ChannelList
               channels={channels}
               deleteList={this.onDeleteList}
+              viewList={this.onViewChannel}
             />
             :
             ''
@@ -108,7 +116,7 @@ const mapStateToProps = ({ lists }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(listActions, dispatch),
+  actions: bindActionCreators({ ...redirectActions, ...listActions }, dispatch),
 });
 
 BotConfigurationContainerStep2 = connect(

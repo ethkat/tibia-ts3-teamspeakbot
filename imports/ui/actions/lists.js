@@ -3,6 +3,7 @@ import { showAlert } from '/imports/ui/actions/alerts';
 
 export const CREATE_LIST = 'CREATE_LIST';
 export const OPEN_NEW_LIST_MODAL = 'OPEN_NEW_LIST_MODAL';
+export const OPEN_NEW_ITEM_MODAL = 'OPEN_NEW_ITEM_MODAL';
 
 export const openNewListModal = ({ isModalOpen = true } = {}) => ({
   type: OPEN_NEW_LIST_MODAL,
@@ -47,3 +48,8 @@ export const deleteList = ({ _id, botId }) => (
     });
   }
 );
+
+export const openNewItemModal = ({ isItemModalOpen = true } = {}) => ({
+  type: OPEN_NEW_ITEM_MODAL,
+  payload: { isItemModalOpen },
+});

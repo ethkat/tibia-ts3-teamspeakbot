@@ -14,6 +14,7 @@ import LoggedOutLayout from '/imports/ui/layouts/LoggedOutLayout';
 
 import BotPage from '/imports/ui/pages/BotsPage/BotPage';
 import BotsPage from '/imports/ui/pages/BotsPage/BotsPage';
+import ListPage from '/imports/ui/pages/ListPage/ListPage';
 import LoginPage from '/imports/ui/pages/LoginPage/LoginPage';
 import LandingPage from '/imports/ui/pages/LandingPage/LandingPage';
 import RegisterPage from '/imports/ui/pages/RegisterPage/RegiserPage';
@@ -35,6 +36,7 @@ export default () => (
         <IndexRedirect to="bots" />
         <Route path="bots" component={BotsPage} />
         <Route path="bots/:_id" component={BotPage} />
+        <Route path="view-list/:_id" component={ListPage} />
       </Route>
     </Router>
   </Provider>
