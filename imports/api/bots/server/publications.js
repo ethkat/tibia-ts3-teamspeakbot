@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 
 import { Bots } from '/imports/api/bots/Bots';
 import { Channels } from '/imports/api/bots/Channels';
+import { ListItems } from '/imports/api/bots/ListItems';
 import { ServerQueryUsers } from '/imports/api/bots/ServerQueryUsers';
 
 Meteor.publish('bot.get', function({ _id }) {
@@ -32,4 +33,8 @@ Meteor.publish('bot.from.list.get', function({ _id: listId }) {
   const { botId } = channel;
 
   return Bots.find({ _id: botId });
+});
+
+Meteor.publish('listItems.get', function({ listId }) {
+  return ListItems.find({ listId });
 });

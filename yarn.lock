@@ -2311,9 +2311,9 @@ through@^2.3.6:
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
 
-tibia-api@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/tibia-api/-/tibia-api-0.0.6.tgz#44e63b2ad5198e9dd30444171eb4a45014c6b9a6"
+tibia-api@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/tibia-api/-/tibia-api-0.0.8.tgz#394bf3fc4281acb1d18fae0fa4730dbe4034e009"
   dependencies:
     cheerio "^0.22.0"
     tinyreq "^3.2.0"

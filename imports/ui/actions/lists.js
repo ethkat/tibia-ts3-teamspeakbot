@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { showAlert } from '/imports/ui/actions/alerts';
-import { createListItem } from '/imports/api/bots/methods';
+import { createListItem, deleteListItem } from '/imports/api/bots/methods';
 
 export const CREATE_LIST = 'CREATE_LIST';
 export const CREATE_LIST_ITEM = 'CREATE_LIST_ITEM';
@@ -17,6 +17,8 @@ export const createList = ({ list, botId }, cb) => (
     Meteor.call('teamspeak.channels.createNormalChannel', { list, botId }, (error) => {
       if (error) {
         const { message } = error;
+        console.log(error);
+
         dispatch(showAlert({
           type: 'danger',
           message,
@@ -92,6 +94,26 @@ export const createItemFromUrl = ({ name, server, world, listId }, cb) => (
             listId,
           }));
         });
+        if (cb && typeof cb === 'function') cb();
+      }
+    });
+  }
+);
+
+export const deleteItem = ({ _id }, cb) => (
+  (dispatch) => {
+    deleteListItem.call({ _id }, (error) => {
+      if (error) {
+        const { message } = error;
+        dispatch(showAlert({
+          type: 'danger',
+          message,
+        }));
+      } else {
+        dispatch(showAlert({
+          type: 'success',
+          message: 'Item deleted',
+        }));
         if (cb && typeof cb === 'function') cb();
       }
     });

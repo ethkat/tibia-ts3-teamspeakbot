@@ -43,6 +43,6 @@
     "redux-thunk": "^2.2.0",
     "simpl-schema": "^0.3.2",
     "tether": "^1.4.0",
-    "tibia-api": "^0.0.6"
+    "tibia-api": "^0.0.8"
   }
 }

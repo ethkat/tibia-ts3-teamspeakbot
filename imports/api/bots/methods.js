@@ -77,3 +77,13 @@ export const createListItem = new ValidatedMethod({
     });
   },
 });
+
+export const deleteListItem = new ValidatedMethod({
+  name: 'listItems.delete',
+  validate: new SimpleSchema({
+    _id: { type: String },
+  }).validator(),
+  run({ _id }) {
+    return ListItems.remove(_id);
+  },
+});
