@@ -3,6 +3,7 @@ import SimpleSchema from 'simpl-schema';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
 import { Bots } from '/imports/api/bots/Bots';
+import { ListItems } from '/imports/api/bots/ListItems';
 import { ServerQueryUsers } from '/imports/api/bots/ServerQueryUsers';
 
 export const updateBot = new ValidatedMethod({
@@ -60,5 +61,19 @@ export const serverQueryUser = new ValidatedMethod({
         'Sorry, but you must be online to create a query user (=');
     }
     return ServerQueryUsers.insert(user);
+  },
+});
+
+export const createListItem = new ValidatedMethod({
+  name: 'listItems.create',
+  validate: new SimpleSchema({
+    listId: { type: String },
+    name: { type: String },
+  }).validator(),
+  run({ listId, name }) {
+    return ListItems.insert({
+      listId,
+      name,
+    });
   },
 });

@@ -25,3 +25,11 @@ Meteor.publish('channel.get', function({ _id }) {
 Meteor.publish('channels.get', function({ _id: botId }) {
   return Channels.find({ botId, channelType: 'normal' });
 });
+
+Meteor.publish('bot.from.list.get', function({ _id: listId }) {
+  const channel = Channels.findOne({ _id: listId });
+
+  const { botId } = channel;
+
+  return Bots.find({ _id: botId });
+});

@@ -11,6 +11,14 @@ import '/imports/api/bots/server/publications';
 
 import '/imports/api/teamSpeak/methods';
 
+// Medivia
+
+import '/imports/api/medivia/methods';
+
+// Tibia
+
+import '/imports/api/tibia/methods';
+
 Meteor.startup(() => {
   initData();
 });
