@@ -6,9 +6,9 @@ import { createContainer } from 'meteor/react-meteor-data';
 
 import { Bots } from '/imports/api/bots/Bots';
 import { ServerQueryUsers } from '/imports/api/bots/ServerQueryUsers';
+import BotFeaturesPage from '/imports/ui/pages/BotsPage/BotFeaturesPage';
 import BotConfigurationContainerStep0 from '/imports/ui/containers/BotConfigurationContainer/BotConfigurationContainerStep0';
 import BotConfigurationContainerStep1 from '/imports/ui/containers/BotConfigurationContainer/BotConfigurationContainerStep1';
-import BotConfigurationContainerStep2 from '/imports/ui/containers/BotConfigurationContainer/BotConfigurationContainerStep2';
 
 const calculateStepByData = ({ queryUser, configSetup }) => {
   let step = 2;
@@ -21,7 +21,7 @@ const calculateStepByData = ({ queryUser, configSetup }) => {
 const containersByStep = {
   0: BotConfigurationContainerStep0,
   1: BotConfigurationContainerStep1,
-  2: BotConfigurationContainerStep2,
+  2: BotFeaturesPage,
 };
 
 let BotConfigurationContainer = ({ bot, botReady, queryUser }) => {

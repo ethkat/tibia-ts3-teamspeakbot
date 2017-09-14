@@ -13,8 +13,12 @@ import LoggedInLayout from '/imports/ui/layouts/LoggedInLayout';
 import LoggedOutLayout from '/imports/ui/layouts/LoggedOutLayout';
 
 import BotPage from '/imports/ui/pages/BotsPage/BotPage';
+import PokePage from '/imports/ui/pages/PokePage/PokePage';
+import DragPage from '/imports/ui/pages/DragPage/DragPage';
 import BotsPage from '/imports/ui/pages/BotsPage/BotsPage';
-import ListPage from '/imports/ui/pages/ListPage/ListPage';
+import ListsPage from '/imports/ui/pages/ListPage/ListsPage';
+import ScannPage from '/imports/ui/pages/ScannPage/ScannPage';
+import StatsPage from '/imports/ui/pages/StatsPage/StatsPage';
 import LoginPage from '/imports/ui/pages/LoginPage/LoginPage';
 import LandingPage from '/imports/ui/pages/LandingPage/LandingPage';
 import RegisterPage from '/imports/ui/pages/RegisterPage/RegiserPage';
@@ -36,7 +40,12 @@ export default () => (
         <IndexRedirect to="bots" />
         <Route path="bots" component={BotsPage} />
         <Route path="bots/:_id" component={BotPage} />
-        <Route path="view-list/:_id" component={ListPage} />
+        <Route path="bot/list/:_id" component={ListsPage} />
+        <Route path="bot/poke/:_id" component={PokePage} />
+        <Route path="bot/drag/:_id" component={DragPage} />
+        <Route path="bot/scanner/:_id" component={ScannPage} />
+        <Route path="bot/statics/:_id" component={StatsPage} />
+
       </Route>
     </Router>
   </Provider>

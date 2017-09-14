@@ -12,6 +12,7 @@ import * as listActions from '/imports/ui/actions/lists';
 import Button from '/imports/ui/components/Forms/core/Button';
 import * as redirectActions from '/imports/ui/actions/redirect';
 import NewListForm from '/imports/ui/components/Forms/NewListForm';
+import BotFeaturesPage from '/imports/ui/pages/BotsPage/BotFeaturesPage';
 
 class BotConfigurationContainerStep2 extends React.Component {
   constructor(props) {

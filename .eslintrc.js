@@ -43,6 +43,7 @@ module.exports = {
     'no-class-assign': 'off',
     'no-await-in-loop': 'off',
     'react/jsx-indent': 'off',
+    'jsx-a11y/alt-text': 'off',
     'no-restricted-syntax': [
       'error',
       'ForInStatement',
