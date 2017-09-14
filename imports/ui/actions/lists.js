@@ -17,8 +17,6 @@ export const createList = ({ list, botId }, cb) => (
     Meteor.call('teamspeak.channels.createNormalChannel', { list, botId }, (error) => {
       if (error) {
         const { message } = error;
-        console.log(error);
-
         dispatch(showAlert({
           type: 'danger',
           message,
@@ -80,7 +78,7 @@ export const createItem = ({ name, listId }, cb) => (
 
 export const createItemFromUrl = ({ name, server, world, listId }, cb) => (
   (dispatch) => {
-    Meteor.call(`${server}.get.players.online`, { name, listId, world }, (error, result) => {
+    Meteor.call(`${server}.get.guild.players`, { name, listId, world }, (error, result) => {
       if (error) {
         const { message } = error;
         dispatch(showAlert({

@@ -3,8 +3,16 @@ import SimpleSchema from 'simpl-schema';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
 import { Bots } from '/imports/api/bots/Bots';
+import { Channels } from '/imports/api/bots/Channels';
 import { ListItems } from '/imports/api/bots/ListItems';
 import { ServerQueryUsers } from '/imports/api/bots/ServerQueryUsers';
+import { tibiaGetPlayerInformation } from '/imports/api/tibia/methods';
+import { mediviaGetPlayerInformation } from '/imports/api/medivia/methods';
+
+const playerInformationByServer = {
+  tibiaRL: tibiaGetPlayerInformation,
+  medivia: mediviaGetPlayerInformation,
+};
 
 export const updateBot = new ValidatedMethod({
   name: 'bots.update',
@@ -70,10 +78,10 @@ export const createListItem = new ValidatedMethod({
     listId: { type: String },
     name: { type: String },
   }).validator(),
-  run({ listId, name }) {
+  async run({ listId, name }) {
     return ListItems.insert({
-      listId,
       name,
+      listId,
     });
   },
 });

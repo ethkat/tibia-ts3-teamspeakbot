@@ -1,3 +1,11 @@
+export const VOCATIONS_ICONS = {
+  'http://forums.xenobot.net/images/icons/icon4.png': 'None',
+  'http://i.imgur.com/qAXsL2J.png': 'Druid',
+  'http://i.imgur.com/rYWmtmw.png': 'Paladin',
+  'http://i.imgur.com/jMWSztQ.png': 'Sorcerer',
+  'http://i.imgur.com/sKqEwqU.png': 'Knight',
+};
+
 export const TIBIA_RL_WORLDS = [
   'Amera',
   'Antica',

@@ -19,6 +19,10 @@ import '/imports/api/medivia/methods';
 
 import '/imports/api/tibia/methods';
 
+// Crones
+
+import '/imports/api/tasks/init';
+
 Meteor.startup(() => {
   initData();
 });

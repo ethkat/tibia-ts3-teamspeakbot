@@ -6,7 +6,7 @@ import { Channels } from '/imports/api/bots/Channels';
 import { MASTER_CHANNELS } from '/imports/api/teamSpeak/constants';
 import { ServerQueryUsers } from '/imports/api/bots/ServerQueryUsers';
 import { loginToServerQuery, initTeamspeakClient } from '/imports/api/teamSpeak/login-utils';
-import { createChannel, deleteChannel, getChannelsAPI } from '/imports/api/teamSpeak/channels';
+import { createChannel, deleteChannel, updateChannel, getChannelsAPI } from '/imports/api/teamSpeak/channels';
 
 const insertMasterChannels = ({ channel, index }) => {
   const { cid, botId, channel_name: channelName } = channel;
@@ -207,5 +207,34 @@ export const deleteChannelList = new ValidatedMethod({
     });
 
     return Channels.remove({ _id });
+  },
+});
+
+export const updateTemspeakChannel = new ValidatedMethod({
+  name: 'teamspeak.channels.update',
+  validate: new SimpleSchema({
+    botId: {
+      type: String,
+    },
+    channelData: {
+      type: Object,
+      blackbox: true,
+    },
+  }).validator(),
+  async run({ botId, channelData }) {
+    const bot = Bots.findOne({ _id: botId });
+    const queryUser = ServerQueryUsers.findOne({ botId });
+
+    const { username, password } = queryUser;
+    const { port, address, serverId } = bot;
+
+    const teamspeak = await loginToServerQuery({
+      serverId,
+      username,
+      password,
+      teamspeak: initTeamspeakClient({ port, address }),
+    });
+    const response = await updateChannel({ teamspeak, channelData });
+    return response;
   },
 });

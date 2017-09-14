@@ -23,6 +23,10 @@ Meteor.publish('channel.get', function({ _id }) {
   return Channels.find({ _id });
 });
 
+Meteor.publish('channels.master.get', function({ _id: botId }) {
+  return Channels.find({ botId });
+});
+
 Meteor.publish('channels.get', function({ _id: botId }) {
   return Channels.find({ botId, channelType: 'normal' });
 });

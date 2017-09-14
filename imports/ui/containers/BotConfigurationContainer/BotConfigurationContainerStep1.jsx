@@ -94,7 +94,7 @@ BotConfigurationContainerStep1.propTypes = {
 };
 
 BotConfigurationContainerStep1 = createContainer(({ _id }) => {
-  const handleChannels = Meteor.subscribe('channels.get', { _id });
+  const handleChannels = Meteor.subscribe('channels.master.get', { _id });
 
   return {
     channelsReady: handleChannels.ready(),

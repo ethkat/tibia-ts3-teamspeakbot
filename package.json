@@ -25,7 +25,7 @@
     "babel-runtime": "^6.26.0",
     "bootstrap": "4.0.0-beta",
     "lodash": "^4.17.4",
-    "medivia-api": "^0.0.3",
+    "medivia-api": "^0.0.7",
     "meteor-node-stubs": "^0.2.11",
     "moment": "^2.18.1",
     "node-teamspeak": "^1.0.10",
