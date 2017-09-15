@@ -4,43 +4,43 @@ import { Field, reduxForm } from 'redux-form';
 
 import { buildValidation } from '/imports/ui/utils/forms';
 import Button from '/imports/ui/components/Forms/core/Button';
-import NewListItemFormSchema from '/imports/api/models/forms/NewListItemForm';
 import TextInput from '/imports/ui/components/Forms/core/TextInput';
+import SendPokeFormSchema from '/imports/api/models/forms/SendPokeForm';
 
-let NewListItemForm = ({ handleSubmit }) => (
+let SendPokeForm = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit} className="">
     <div className="form-group">
       <Field
-        name="field"
+        name="message"
         type="text"
-        label="Enter char name or guild URL"
-        placeholder=""
+        label="Message"
+        placeholder="Poke Message"
         component={TextInput}
       />
     </div>
     <div className="form-group">
       <Button
         type="submit"
-        text="Add Item"
+        text="Send Mass POKE"
         klass="full-button"
       />
     </div>
   </form>
 );
 
-NewListItemForm.defaultProps = {
+SendPokeForm.defaultProps = {
   handleSubmit: () => {},
 };
 
-NewListItemForm.propTypes = {
+SendPokeForm.propTypes = {
   handleSubmit: PropTypes.func,
 };
 
-NewListItemForm = reduxForm({
-  form: 'NewListItemForm',
+SendPokeForm = reduxForm({
+  form: 'SendPokeForm',
   validate: buildValidation({
-    validator: NewListItemFormSchema,
+    validator: SendPokeFormSchema,
   }),
-})(NewListItemForm);
+})(SendPokeForm);
 
-export default NewListItemForm;
+export default SendPokeForm;

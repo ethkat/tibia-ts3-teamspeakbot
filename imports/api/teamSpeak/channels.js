@@ -37,13 +37,24 @@ export const deleteChannel = async ({ cid, teamspeak }) => (
   })
 );
 
-
 export const updateChannel = async ({
   teamspeak,
   channelData,
 }) => (
   new Promise((resolve, reject) => {
     teamspeak.send('channeledit', channelData, (error, result) => {
+      if (error) reject(error);
+      resolve(result);
+    });
+  })
+);
+
+export const dragAllToChannel = async ({
+  teamspeak,
+  clientData,
+}) => (
+  new Promise((resolve, reject) => {
+    teamspeak.send('clientmove', clientData, (error, result) => {
       if (error) reject(error);
       resolve(result);
     });

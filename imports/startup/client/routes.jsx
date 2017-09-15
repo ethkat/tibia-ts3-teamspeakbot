@@ -16,6 +16,7 @@ import BotPage from '/imports/ui/pages/BotsPage/BotPage';
 import PokePage from '/imports/ui/pages/PokePage/PokePage';
 import DragPage from '/imports/ui/pages/DragPage/DragPage';
 import BotsPage from '/imports/ui/pages/BotsPage/BotsPage';
+import KickPage from '/imports/ui/pages/KickPage/KickPage';
 import ListsPage from '/imports/ui/pages/ListPage/ListsPage';
 import ScannPage from '/imports/ui/pages/ScannPage/ScannPage';
 import StatsPage from '/imports/ui/pages/StatsPage/StatsPage';
@@ -45,6 +46,7 @@ export default () => (
         <Route path="bot/drag/:_id" component={DragPage} />
         <Route path="bot/scanner/:_id" component={ScannPage} />
         <Route path="bot/statics/:_id" component={StatsPage} />
+        <Route path="bot/kick/:_id" component={KickPage} />
 
       </Route>
     </Router>

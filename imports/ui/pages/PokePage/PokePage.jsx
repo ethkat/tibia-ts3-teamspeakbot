@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import SendPokeContainer from '/imports/ui/containers/Poke/SendPokeContainer';
+
 const PokePage = ({ params }) => {
   const { _id } = params;
   return (
     <div className="container">
-      PokePage for id {_id}
+      <h4 className="display-4 text-center">Send MASS POKE</h4>
+      <SendPokeContainer _id={_id} />
     </div>
   );
 };

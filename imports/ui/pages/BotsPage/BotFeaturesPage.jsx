@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 const FEATURES = [{
@@ -17,20 +18,27 @@ const FEATURES = [{
   description: 'Send poke to everyone on your TS',
 }, {
   id: 3,
+  to: '/dashboard/bot/kick/',
+  name: 'Kick & Mass Kick',
+  image: '/images/features/kick.png',
+  available: false,
+  description: 'Kick selected players or all from TS',
+}, {
+  id: 4,
   to: '/dashboard/bot/drag/',
   name: 'Mass Drag',
   image: '/images/features/mass-drag.png',
   available: false,
   description: 'Dragg all clients to the server',
 }, {
-  id: 4,
+  id: 5,
   to: '/dashboard/bot/scanner/',
   name: 'Scann Character',
   image: '/images/features/scanner.jpg',
   available: false,
   description: 'Analize Hidden character',
 }, {
-  id: 5,
+  id: 6,
   to: '/dashboard/bot/statics/',
   name: 'War Statics',
   image: '/images/features/war.jpg',
@@ -71,6 +79,8 @@ const BotFeaturesPage = ({ _id }) => (
   </div>
 );
 
-BotFeaturesPage.propTypes = {};
+BotFeaturesPage.propTypes = {
+  _id: PropTypes.string.isRequired,
+};
 
 export default BotFeaturesPage;

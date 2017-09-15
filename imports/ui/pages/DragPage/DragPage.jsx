@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import DragContainer from '/imports/ui/containers/Drag/DragContainer';
+
 const DragPage = ({ params }) => {
   const { _id } = params;
   return (
     <div className="container">
-      DragPage for id {_id}
+      <p className="display-4 text-center">Select a Channel</p>
+      <DragContainer _id={_id} />
     </div>
   );
 };
