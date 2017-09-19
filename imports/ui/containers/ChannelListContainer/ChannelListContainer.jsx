@@ -12,9 +12,8 @@ import * as listActions from '/imports/ui/actions/lists';
 import Button from '/imports/ui/components/Forms/core/Button';
 import * as redirectActions from '/imports/ui/actions/redirect';
 import NewListForm from '/imports/ui/components/Forms/NewListForm';
-import BotFeaturesPage from '/imports/ui/pages/BotsPage/BotFeaturesPage';
 
-class BotConfigurationContainerStep2 extends React.Component {
+class ChannelListContainer extends React.Component {
   constructor(props) {
     super(props);
 
@@ -88,14 +87,14 @@ class BotConfigurationContainerStep2 extends React.Component {
   }
 }
 
-BotConfigurationContainerStep2.defaultProps = {
+ChannelListContainer.defaultProps = {
   actions: {},
   channels: [],
   channelsReady: false,
   isModalOpen: false,
 };
 
-BotConfigurationContainerStep2.propTypes = {
+ChannelListContainer.propTypes = {
   _id: PropTypes.string.isRequired,
   actions: PropTypes.object,
   channels: PropTypes.array,
@@ -103,14 +102,14 @@ BotConfigurationContainerStep2.propTypes = {
   channelsReady: PropTypes.bool,
 };
 
-BotConfigurationContainerStep2 = createContainer(({ _id }) => {
+ChannelListContainer = createContainer(({ _id }) => {
   const handleChannels = Meteor.subscribe('channels.get', { _id });
 
   return {
     channels: Channels.find().fetch(),
     channelsReady: handleChannels.ready(),
   };
-}, BotConfigurationContainerStep2);
+}, ChannelListContainer);
 
 const mapStateToProps = ({ lists }) => ({
   isModalOpen: lists.isModalOpen,
@@ -120,9 +119,9 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ ...redirectActions, ...listActions }, dispatch),
 });
 
-BotConfigurationContainerStep2 = connect(
+ChannelListContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(BotConfigurationContainerStep2);
+)(ChannelListContainer);
 
-export default BotConfigurationContainerStep2;
+export default ChannelListContainer;

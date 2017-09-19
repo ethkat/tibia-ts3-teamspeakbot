@@ -4,7 +4,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { Bots } from '/imports/api/bots/Bots';
 import { Channels } from '/imports/api/bots/Channels';
 import { sendPoke } from '/imports/api/teamSpeak/poke';
-import { getClientsList } from '/imports/api/teamSpeak/clients';
+import { clientKick, getClientsList } from '/imports/api/teamSpeak/clients';
 import { MASTER_CHANNELS } from '/imports/api/teamSpeak/constants';
 import { ServerQueryUsers } from '/imports/api/bots/ServerQueryUsers';
 import {
@@ -47,14 +47,16 @@ export const getChannels = new ValidatedMethod({
     const { port, address, serverId } = bot;
 
     const teamspeak = await loginToServerQuery({
+      port,
       botId,
+      address,
       serverId,
       username,
       password,
-      teamspeak: initTeamspeakClient({ port, address }),
+      teamspeak: initTeamspeakClient({ port, botId, address }),
     });
     const channels = await getChannelsAPI({ teamspeak });
-    await logoutFromServer({ teamspeak });
+    await logoutFromServer({ botId, teamspeak });
     return channels;
   },
 });
@@ -77,11 +79,13 @@ export const createMasterChannels = new ValidatedMethod({
     const { port, address, serverId } = bot;
 
     const teamspeak = await loginToServerQuery({
+      port,
       botId,
+      address,
       serverId,
       username,
       password,
-      teamspeak: initTeamspeakClient({ port, address }),
+      teamspeak: initTeamspeakClient({ port, botId, address }),
     });
 
     const channels = await Promise.all(MASTER_CHANNELS.map(channel => createChannel({
@@ -102,7 +106,7 @@ export const createMasterChannels = new ValidatedMethod({
       })
     ));
 
-    await logoutFromServer({ teamspeak });
+    await logoutFromServer({ botId, teamspeak });
     return channelsInserted;
   },
 });
@@ -128,11 +132,13 @@ export const deleteMasterChannels = new ValidatedMethod({
     const { port, address, serverId } = bot;
 
     const teamspeak = await loginToServerQuery({
+      port,
       botId,
+      address,
       serverId,
       username,
       password,
-      teamspeak: initTeamspeakClient({ port, address }),
+      teamspeak: initTeamspeakClient({ port, botId, address }),
     });
 
     await Promise.all(channels.map(({ cid }) => deleteChannel({
@@ -140,7 +146,7 @@ export const deleteMasterChannels = new ValidatedMethod({
       teamspeak,
     })));
 
-    await logoutFromServer({ teamspeak });
+    await logoutFromServer({ botId, teamspeak });
     return channels.forEach(({ _id }) => Channels.remove({ _id }));
   },
 });
@@ -167,11 +173,13 @@ export const createNormalChannel = new ValidatedMethod({
     const { port, address, serverId } = bot;
 
     const teamspeak = await loginToServerQuery({
+      port,
       botId,
+      address,
       serverId,
       username,
       password,
-      teamspeak: initTeamspeakClient({ port, address }),
+      teamspeak: initTeamspeakClient({ port, botId, address }),
     });
 
     const { name } = list;
@@ -184,7 +192,8 @@ export const createNormalChannel = new ValidatedMethod({
 
     const { cid } = channel;
 
-    await logoutFromServer({ teamspeak });
+    await logoutFromServer({ botId, teamspeak });
+
     return Channels.insert({
       cid,
       botId,
@@ -213,11 +222,13 @@ export const deleteChannelList = new ValidatedMethod({
     const { port, address, serverId } = bot;
 
     const teamspeak = await loginToServerQuery({
+      port,
       botId,
+      address,
       serverId,
       username,
       password,
-      teamspeak: initTeamspeakClient({ port, address }),
+      teamspeak: initTeamspeakClient({ port, botId, address }),
     });
 
     const { cid } = channelToDelete;
@@ -227,7 +238,8 @@ export const deleteChannelList = new ValidatedMethod({
       teamspeak,
     });
 
-    await logoutFromServer({ teamspeak });
+    await logoutFromServer({ botId, teamspeak });
+
     return Channels.remove({ _id });
   },
 });
@@ -251,14 +263,17 @@ export const updateTemspeakChannel = new ValidatedMethod({
     const { port, address, serverId } = bot;
 
     const teamspeak = await loginToServerQuery({
+      port,
       botId,
+      address,
       serverId,
       username,
       password,
-      teamspeak: initTeamspeakClient({ port, address }),
+      teamspeak: initTeamspeakClient({ port, botId, address }),
     });
     const response = await updateChannel({ teamspeak, channelData });
-    await logoutFromServer({ teamspeak });
+    await logoutFromServer({ botId, teamspeak });
+
     return response;
   },
 });
@@ -281,11 +296,13 @@ export const sendTeamSpeakPoke = new ValidatedMethod({
     const { port, address, serverId } = bot;
 
     const teamspeak = await loginToServerQuery({
+      port,
       botId,
+      address,
       serverId,
       username,
       password,
-      teamspeak: initTeamspeakClient({ port, address }),
+      teamspeak: initTeamspeakClient({ port, botId, address }),
     });
 
     const clients = await getClientsList({ teamspeak });
@@ -295,7 +312,7 @@ export const sendTeamSpeakPoke = new ValidatedMethod({
       teamspeak,
     })));
 
-    await logoutFromServer({ teamspeak });
+    await logoutFromServer({ botId, teamspeak });
     return pokes;
   },
 });
@@ -318,11 +335,13 @@ export const dragToAll = new ValidatedMethod({
     const { port, address, serverId } = bot;
 
     const teamspeak = await loginToServerQuery({
+      port,
       botId,
+      address,
       serverId,
       username,
       password,
-      teamspeak: initTeamspeakClient({ port, address }),
+      teamspeak: initTeamspeakClient({ port, botId, address }),
     });
 
     const clients = await getClientsList({ teamspeak });
@@ -334,7 +353,49 @@ export const dragToAll = new ValidatedMethod({
       teamspeak,
     })));
 
-    await logoutFromServer({ teamspeak });
+    await logoutFromServer({ botId, teamspeak });
+
+    return drags;
+  },
+});
+
+export const massKickAll = new ValidatedMethod({
+  name: 'teamspeak.channels.kick.all',
+  validate: new SimpleSchema({
+    botId: {
+      type: String,
+    },
+  }).validator(),
+  async run({ botId }) {
+    queue.create(`botId-task-kick`);
+    const bot = Bots.findOne({ _id: botId });
+    const queryUser = ServerQueryUsers.findOne({ botId });
+
+    const { username, password } = queryUser;
+    const { port, address, serverId } = bot;
+
+    const teamspeak = await loginToServerQuery({
+      port,
+      botId,
+      address,
+      serverId,
+      username,
+      password,
+      teamspeak: initTeamspeakClient({ port, botId, address }),
+    });
+
+    const clients = await getClientsList({ teamspeak });
+    const drags = await Promise.all(clients.map(({ clid }) => clientKick({
+      kickData: {
+        clid,
+        reasonid: 5,
+        reasonmsg: 'MASS KICK',
+      },
+      teamspeak,
+    })));
+
+    await logoutFromServer({ botId, teamspeak });
+
     return drags;
   },
 });

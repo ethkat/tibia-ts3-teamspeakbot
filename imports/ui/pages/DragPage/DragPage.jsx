@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import DragContainer from '/imports/ui/containers/Drag/DragContainer';
+import DragContainer from '/imports/ui/containers/DragContainer/DragContainer';
 
 const DragPage = ({ params }) => {
   const { _id } = params;

@@ -11,17 +11,11 @@ export const getClientsList = async ({ teamspeak }) => (
 );
 
 export const clientKick = async ({
-  clid,
-  reasonid = 5,
-  reasonmsg = 'KICKED',
+  kickData,
   teamspeak,
 }) => (
   new Promise((resolve, reject) => {
-    teamspeak.send('clientkick', {
-      clid,
-      reasonid,
-      reasonmsg,
-    }, (error, result) => {
+    teamspeak.send('clientkick', kickData, (error, result) => {
       if (error) {
         reject(error);
       } else {
@@ -45,5 +39,15 @@ export const kickBotClients = async ({ teamspeak }) => (
       }),
     );
     resolve(clientKicks);
+  })
+);
+
+export const findClient = async ({ teamspeak, botName }) => (
+  new Promise((resolve) => {
+    teamspeak.send('clientfind', {
+      pattern: botName,
+    }, (error, result) => {
+      resolve(result);
+    });
   })
 );

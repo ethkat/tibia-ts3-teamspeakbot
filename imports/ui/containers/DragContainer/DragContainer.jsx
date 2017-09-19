@@ -4,11 +4,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as dragActions from '/imports/ui/actions/drag';
-import Button from '/imports/ui/components/Forms/core/Button';
 import * as botConfigurationActions from '/imports/ui/actions/botConfiguration';
 import TeamspeakChannelList from '/imports/ui/components/TeamspeakChannelList/TeamspeakChannelList';
 
-class KickContainer extends React.Component {
+class DragContainer extends React.Component {
   constructor(props) {
     super(props);
 
@@ -29,7 +28,7 @@ class KickContainer extends React.Component {
 
   onSelectChannel({ cid, channelName }) {
     const { actions } = this.props;
-    actions.selectChannel({ selectedChannelName: channelName, selectedChannel: cid });
+    actions.selectChannel({ selectedChannel: cid });
   }
 
   massKick() {
@@ -38,18 +37,9 @@ class KickContainer extends React.Component {
   }
 
   render() {
-    const { selectedChannel, selectedChannelName, teamspeakChannels } = this.props;
+    const { selectedChannel, teamspeakChannels } = this.props;
     return (
       <div>
-        <div>
-          {
-            selectedChannel ?
-              <Button
-                text={`Mass Kick from channel: ${selectedChannelName}`}
-                onClick={this.massKick}
-              /> : ''
-          }
-        </div>
         <TeamspeakChannelList
           selectChannel={this.onSelectChannel}
           selectedChannel={selectedChannel}
@@ -61,19 +51,17 @@ class KickContainer extends React.Component {
   }
 }
 
-KickContainer.defaultProps = {
+DragContainer.defaultProps = {
   actions: {},
   selectedChannel: 0,
   teamspeakChannels: [],
-  selectedChannelName: '',
 };
 
-KickContainer.propTypes = {
+DragContainer.propTypes = {
   _id: PropTypes.string.isRequired,
   actions: PropTypes.object,
   selectedChannel: PropTypes.number,
   teamspeakChannels: PropTypes.array,
-  selectedChannelName: PropTypes.string,
 };
 
 const mapStateToProps = ({ botConfiguration }) => {
@@ -87,9 +75,9 @@ const mapDispatchToProps = dispatch => ({
   }, dispatch),
 });
 
-KickContainer = connect(
+DragContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(KickContainer);
+)(DragContainer);
 
-export default KickContainer;
+export default DragContainer;
