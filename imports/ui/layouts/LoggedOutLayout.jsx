@@ -5,7 +5,9 @@ import { Meteor } from 'meteor/meteor';
 import { bindActionCreators } from 'redux';
 import { createContainer } from 'meteor/react-meteor-data';
 
+import Footer from '/imports/ui/components/core/Footer';
 import * as redirectActions from '/imports/ui/actions/redirect';
+import GithubRibbon from '/imports/ui/components/core/GithubRibbon';
 import LoggedOutNav from '/imports/ui/components/core/LoggedOutNav';
 
 class LoggedOutLayout extends React.Component {
@@ -29,8 +31,10 @@ class LoggedOutLayout extends React.Component {
     const { children } = this.props;
     return (
       <div>
+        <GithubRibbon />
         <LoggedOutNav />
         {children}
+        <Footer />
       </div>
     );
   }

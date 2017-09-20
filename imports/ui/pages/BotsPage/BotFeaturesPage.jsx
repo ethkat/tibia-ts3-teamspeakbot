@@ -1,52 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import { FEATURES } from '/imports/ui/constants';
 
-const FEATURES = [{
-  id: 1,
-  to: '/dashboard/bot/list/',
-  name: 'Lists',
-  image: '/images/features/lists.png',
-  available: true,
-  description: 'Create Bot lists that are created as channels',
-}, {
-  id: 2,
-  to: '/dashboard/bot/poke/',
-  name: 'Poke',
-  image: '/images/features/poke.png',
-  available: false,
-  description: 'Send poke to everyone on your TS',
-}, {
-  id: 3,
-  to: '/dashboard/bot/kick/',
-  name: 'Kick & Mass Kick',
-  image: '/images/features/kick.png',
-  available: false,
-  description: 'Kick selected players or all from TS',
-}, {
-  id: 4,
-  to: '/dashboard/bot/drag/',
-  name: 'Mass Drag',
-  image: '/images/features/mass-drag.png',
-  available: false,
-  description: 'Dragg all clients to the server',
-}, {
-  id: 5,
-  to: '/dashboard/bot/scanner/',
-  name: 'Scann Character',
-  image: '/images/features/scanner.jpg',
-  available: false,
-  description: 'Analize Hidden character',
-}, {
-  id: 6,
-  to: '/dashboard/bot/statics/',
-  name: 'War Statics',
-  image: '/images/features/war.jpg',
-  available: false,
-  description: 'Checkout information, like who die most, how frag more, whos winning',
-}];
+import './style.css';
 
-const BotFeaturesPage = ({ _id }) => (
+const BotFeaturesPage = ({ _id, showButton }) => (
   <div className="container">
     <p className="display-4 text-center">Features Available</p>
     <div className="row">
@@ -55,14 +14,26 @@ const BotFeaturesPage = ({ _id }) => (
         to,
         name,
         image,
+        available,
         description,
       }) => (
         <div
           key={id}
           className="col-lg-4 d-flex align-items-stretch"
-          style={{ marginBottom: '1em' }}
+          style={{
+            marginBottom: '1em',
+            [available ? '' : 'pointerEvents']: 'none',
+            [available ? '' : 'opacity']: '0.4',
+          }}
         >
           <div className="card" style={{ width: '20rem' }}>
+            {
+              available ?
+                '' :
+                <div className="ribbon-wrapper-green">
+                  <div className="ribbon-green">Coomig Soon</div>
+                </div>
+            }
             <img
               src={image}
               className="card-img-top"
@@ -70,7 +41,11 @@ const BotFeaturesPage = ({ _id }) => (
             <div className="card-block" style={{ padding: '1em' }}>
               <h4 className="card-title">{name}</h4>
               <p className="card-text">{description}</p>
-              <Link to={`${to}${_id}`} className="btn btn-primary">Check it out</Link>
+              {
+                showButton ?
+                  <Link to={`${to}${_id}`} className="btn btn-primary">Check it out</Link> :
+                  ''
+              }
             </div>
           </div>
         </div>
@@ -79,8 +54,13 @@ const BotFeaturesPage = ({ _id }) => (
   </div>
 );
 
+BotFeaturesPage.defaultProps = {
+  showButton: true,
+};
+
 BotFeaturesPage.propTypes = {
   _id: PropTypes.string.isRequired,
+  showButton: PropTypes.bool,
 };
 
 export default BotFeaturesPage;

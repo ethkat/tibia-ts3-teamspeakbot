@@ -5,8 +5,10 @@ import { Meteor } from 'meteor/meteor';
 import { bindActionCreators } from 'redux';
 import { createContainer } from 'meteor/react-meteor-data';
 
+import Footer from '/imports/ui/components/core/Footer';
 import * as redirectActions from '/imports/ui/actions/redirect';
 import LoggedInNav from '/imports/ui/components/core/LoggedInNav';
+import GithubRibbon from '/imports/ui/components/core/GithubRibbon';
 
 class LoggedInLayout extends React.Component {
   componentWillMount() {
@@ -29,8 +31,10 @@ class LoggedInLayout extends React.Component {
     const { children } = this.props;
     return (
       <div>
+        <GithubRibbon />
         <LoggedInNav />
         {children}
+        <Footer />
       </div>
     );
   }
