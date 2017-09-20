@@ -1,6 +1,8 @@
 import TeamSpeakClient from 'node-teamspeak-ethkat';
 
-export const initTeamspeakClient = ({ port, address }) => new TeamSpeakClient(address, port);
+export const initTeamspeakClient = ({ port, botId, address }) => (
+  new TeamSpeakClient(address, port, botId)
+);
 
 const BOT_NAME = 'ETHAN_TS3_BOT';
 
