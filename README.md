@@ -1,8 +1,16 @@
 ## TS3 Tibia BOT
 
-### Why?
+## About.
 
-Meh
+Teamspeak ethkat bot, its an opensource project, that try to help all those players that can't afford to pay a bot for they teamspeak, but they are in the need of one.
+
+## Donate
+
+If this help you and your team, and you feel i deserve 5bucks, then use this [Paypal me link](paypal.me/ethaanpump)
+
+## How to Contribute.
+
+Fork this, start this, play with the code, use it on your own teamspeak, put some featrues, make some issues, whathever you can do, do it, this is a community bot.
 
 ## Development
 
