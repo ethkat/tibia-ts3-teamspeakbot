@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import Modal from 'react-modal';
 import PropTypes from 'prop-types';
@@ -9,6 +10,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { Bots } from '/imports/api/bots/Bots';
 import * as botActions from '/imports/ui/actions/bots';
 import BotsList from '/imports/ui/components/Bots/BotsList';
+import * as redirectActions from '/imports/ui/actions/redirect';
 import NewBotForm from '/imports/ui/components/Forms/NewBotForm';
 
 import Button from '/imports/ui/components/Forms/core/Button';
@@ -16,14 +18,33 @@ import Button from '/imports/ui/components/Forms/core/Button';
 class BotsListContainer extends React.Component {
   constructor(props) {
     super(props);
-
+    this.state = {
+      edit: false,
+      initialValues: {},
+    };
+    this.onManageBot = this.onManageBot.bind(this);
+    this.onDeleteBot = this.onDeleteBot.bind(this);
     this.onOpenModal = this.onOpenModal.bind(this);
     this.onCloseModal = this.onCloseModal.bind(this);
+    this.onEditBotInfo = this.onEditBotInfo.bind(this);
     this.onSubmitNewBot = this.onSubmitNewBot.bind(this);
+    this.onNewButtonClick = this.onNewButtonClick.bind(this);
   }
   onSubmitNewBot(bot) {
+    const { edit } = this.state;
     const { actions } = this.props;
-    actions.insertNewBot({ bot }, () => this.onCloseModal());
+    if (edit) {
+      actions.editBot({ bot }, () => this.onCloseModal());
+    } else {
+      actions.insertNewBot({ bot }, () => this.onCloseModal());
+    }
+  }
+
+  onNewButtonClick() {
+    this.setState({
+      edit: false,
+    });
+    this.onOpenModal();
   }
 
   onOpenModal() {
@@ -33,11 +54,37 @@ class BotsListContainer extends React.Component {
 
   onCloseModal() {
     const { actions } = this.props;
+    this.setState({
+      initialValues: {},
+      edit: false,
+    });
     actions.openNewBotModal({ isOpen: false });
+  }
+
+  onEditBotInfo({ botId }) {
+    const { bots } = this.props;
+    const bot = _.find(bots, { _id: botId });
+    this.setState({
+      edit: true,
+      initialValues: bot,
+    });
+    this.onOpenModal();
+  }
+
+  onManageBot({ botId }) {
+    const { actions } = this.props;
+    actions.redirectTo({ to: `/dashboard/bots/${botId}` });
+  }
+
+  onDeleteBot({ botId }) {
+    const { actions } = this.props;
+    actions.deleteBot({ botId }, () => {});
   }
 
   render() {
     const { bots, isOpen } = this.props;
+    const { edit, initialValues } = this.state;
+
     return (
       <div className="container">
         <Modal
@@ -48,14 +95,21 @@ class BotsListContainer extends React.Component {
           <h1>Bot Data</h1>
           <NewBotForm
             onSubmit={this.onSubmitNewBot}
+            initialValues={initialValues}
+            isEditMode={edit}
           />
         </Modal>
         <div>
           <Button
             text="New Bot"
-            onClick={this.onOpenModal}
+            onClick={this.onNewButtonClick}
           />
-          <BotsList bots={bots} />
+          <BotsList
+            bots={bots}
+            editBot={this.onEditBotInfo}
+            deleteBot={this.onDeleteBot}
+            manageBot={this.onManageBot}
+          />
         </div>
       </div>
     );
@@ -89,7 +143,7 @@ const mapStateToProps = ({ bots }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(botActions, dispatch),
+  actions: bindActionCreators({ ...redirectActions, ...botActions }, dispatch),
 });
 
 BotsListContainer = connect(mapStateToProps, mapDispatchToProps)(BotsListContainer);

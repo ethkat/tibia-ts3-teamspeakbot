@@ -27,13 +27,18 @@ serverSelectOptions.unshift({
 
 const getWorldServer = (option) => {
   const worlds = WORLDS_BY_SERVER[option];
-  return worlds.map(world => ({
+  const options = [{
+    key: undefined,
+    value: '-Select a world-',
+  }];
+  worlds.forEach(world => (options.push({
     key: world,
     value: world,
-  }));
+  })));
+  return options;
 };
 
-let NewBotForm = ({ server, handleSubmit }) => (
+let NewBotForm = ({ isEditMode, server, handleSubmit }) => (
   <form onSubmit={handleSubmit} className="">
     <div className="form-group">
       <Field
@@ -98,7 +103,7 @@ let NewBotForm = ({ server, handleSubmit }) => (
     <div className="form-group">
       <Button
         type="submit"
-        text="Create"
+        text={isEditMode ? 'Save Changes' : 'Create'}
         klass="full-button"
       />
     </div>
@@ -107,17 +112,20 @@ let NewBotForm = ({ server, handleSubmit }) => (
 
 NewBotForm.defaultProps = {
   server: '',
+  isEditMode: false,
   handleSubmit: () => {},
 };
 
 NewBotForm.propTypes = {
   server: PropTypes.string,
+  isEditMode: PropTypes.bool,
   handleSubmit: PropTypes.func,
 };
 
 const form = 'NewBotForm';
 NewBotForm = reduxForm({
   form,
+  enableReinitialize: true,
   validate: buildValidation({
     validator: NewBotFormSchema,
   }),

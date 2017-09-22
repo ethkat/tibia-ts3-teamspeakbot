@@ -7,9 +7,19 @@
 
 /* Custom page header */
 .header {
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  position: fixed;
+  background: black;
   padding-bottom: 1rem;
   border-bottom: .05rem solid #e5e5e5;
 }
+
+.ReactModal__Overlay {
+  z-index: 2;
+}
+
 /* Make the masthead heading the same height as the navigation */
 .header h3 {
   margin-top: 0;
@@ -27,21 +37,20 @@
 
 /* Custom page footer */
 .footer {
-  padding-top: 1.5rem;
   color: #777;
   border-top: .05rem solid #e5e5e5;
   text-align: center;
+  bottom: 0;
+  width: 100%;
+  background-color: #fff;
 }
 
-/* Customize container */
-@media (min-width: 48em) {
-  .container {
-    margin-top: 1em;
-    max-width: 50rem;
-  }
+.footer-container {
+  margin-top: 5em;
 }
-.container-narrow > hr {
-  margin: 2rem 0;
+
+.main-container {
+  margin-top: 7em;
 }
 
 /* Main marketing message and sign up button */

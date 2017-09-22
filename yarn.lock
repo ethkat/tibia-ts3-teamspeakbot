@@ -725,13 +725,7 @@ date-now@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
 
-debug@*:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-3.0.1.tgz#0564c612b521dc92d9f2988f0549e34f9c98db64"
-  dependencies:
-    ms "2.0.0"
-
-debug@2.6.8, debug@^2.2.0, debug@^2.6.8:
+debug@*, debug@2.6.8, debug@^2.2.0, debug@^2.6.8:
   version "2.6.8"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.8.tgz#e731531ca2ede27d188222427da17821d68ff4fc"
   dependencies:
@@ -1499,13 +1493,9 @@ https-browserify@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-0.0.1.tgz#3f91365cabe60b77ed0ebba24b454e3e09d95a82"
 
-iconv-lite@0.4.19:
+iconv-lite@0.4.19, iconv-lite@^0.4.17, iconv-lite@~0.4.13:
   version "0.4.19"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.19.tgz#f7468f60135f5e5dad3399c0a81be9a1603a082b"
-
-iconv-lite@^0.4.17, iconv-lite@~0.4.13:
-  version "0.4.18"
-  resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.18.tgz#23d8656b16aae6742ac29732ea8f0336a4789cf2"
 
 ieee754@^1.1.4:
   version "1.1.8"
@@ -2112,12 +2102,6 @@ node-redis-warlock@~0.2.0:
 node-teamspeak-ethkat@^1.0.12:
   version "1.0.12"
   resolved "https://registry.yarnpkg.com/node-teamspeak-ethkat/-/node-teamspeak-ethkat-1.0.12.tgz#fdf75c8804204c50046e1aab32cedfb61df29238"
-  dependencies:
-    line-input-stream ">=1.0.1"
-
-node-teamspeak@^1.0.10:
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/node-teamspeak/-/node-teamspeak-1.0.10.tgz#4b618e408c298946eeb850973f571e40a9ed1501"
   dependencies:
     line-input-stream ">=1.0.1"
 

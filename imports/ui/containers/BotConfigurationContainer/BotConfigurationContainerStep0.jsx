@@ -51,7 +51,7 @@ class BotConfigurationContainerStep0 extends React.Component {
           />
         </Modal>
         <div className="alert alert-warning" role="alert">
-          Seems like you dont put yet any kind of ServerQuery User
+          Seems like you have not entered a ServerQuery User yet.
         </div>
         <div>
           <Button

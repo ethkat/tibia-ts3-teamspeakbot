@@ -20,7 +20,7 @@ export const insertServerQueryUser = ({ user = {} } = {}, cb) => (
       } else {
         dispatch(showAlert({
           type: 'success',
-          message: 'ServerQuery Addedd',
+          message: 'ServerQuery Added',
         }));
         cb(result);
       }

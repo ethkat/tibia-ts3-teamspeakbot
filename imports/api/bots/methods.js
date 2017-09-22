@@ -14,25 +14,6 @@ const playerInformationByServer = {
   medivia: mediviaGetPlayerInformation,
 };
 
-export const updateBot = new ValidatedMethod({
-  name: 'bots.update',
-  validate: new SimpleSchema({
-    bot: {
-      type: Object,
-      blackbox: true,
-    },
-  }).validator(),
-  run({ bot }) {
-    const { userId } = this;
-    const { _id, owner } = bot;
-    if (userId !== owner) {
-      throw new Meteor.Error('bots.insert.unauthorized',
-        'Sorry, this its not yuor bot');
-    }
-    return Bots.update({ _id }, { $set: bot });
-  },
-});
-
 export const insertBot = new ValidatedMethod({
   name: 'bots.insert',
   validate: new SimpleSchema({
@@ -93,5 +74,55 @@ export const deleteListItem = new ValidatedMethod({
   }).validator(),
   run({ _id }) {
     return ListItems.remove(_id);
+  },
+});
+
+
+export const removeBot = new ValidatedMethod({
+  name: 'bots.remove',
+  validate: new SimpleSchema({
+    botId: {
+      type: String,
+    },
+  }).validator(),
+  run({ botId: _id }) {
+    const { userId } = this;
+    const bot = Bots.findOne({ _id });
+    if (!userId) {
+      throw new Meteor.Error('bots.remove.unauthorized',
+        'Sorry, but you must be online to delete a bot (=');
+    }
+    if (bot.owner !== userId) {
+      throw new Meteor.Error('bots.remove.unauthorized',
+        'Sorry, this is not your bot (=');
+    }
+    return Bots.remove(_id);
+  },
+});
+
+export const updateBot = new ValidatedMethod({
+  name: 'bots.update',
+  validate: new SimpleSchema({
+    bot: {
+      type: Object,
+      blackbox: true,
+    },
+  }).validator(),
+  run({ bot }) {
+    const { userId } = this;
+    const doc = Bots.findOne({ _id: bot._id });
+    if (!userId) {
+      throw new Meteor.Error('bots.update.unauthorized',
+        'Sorry, but you must be online to create a bot (=');
+    }
+    if (doc.owner !== userId) {
+      throw new Meteor.Error('bots.update.unauthorized',
+        'Sorry, this is not your bot (=');
+    }
+    const _id = bot._id;
+    delete bot._id;
+    return Bots.update(_id, {
+      $set: bot,
+    });
   },
 });

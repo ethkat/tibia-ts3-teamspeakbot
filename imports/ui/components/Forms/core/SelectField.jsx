@@ -16,7 +16,7 @@ const SelectField = ({
       <select name={name} {...input} className="custom-select">
         {options.map(({ key, value }) => (
           <option
-            key={key}
+            key={key || Math.floor(Math.random() * 1000)}
             value={value}
           >
             {value}

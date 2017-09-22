@@ -22,8 +22,8 @@ class LoggedInNav extends React.Component {
 
   render() {
     return (
-      <div>
-        <ul className="nav nav-pills pull-right">
+      <div className="header">
+        <ul className="nav nav-pills pull-right" style={{ marginRight: '1em' }}>
           <li className="nav-item">
             <Link
               to="/login"

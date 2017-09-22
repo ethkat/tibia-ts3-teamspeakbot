@@ -5,7 +5,7 @@ import BotListItem from '/imports/ui/components/Bots/BotListItem';
 
 import '/imports/ui/components/Bots/style';
 
-const BotsList = ({ bots }) => (
+const BotsList = ({ bots, editBot, manageBot, deleteBot }) => (
   <div className="bots-list__parent">
     {bots.map(({ _id, name, world, server, createdAt }) => (
       <div className="row" key={_id}>
@@ -14,7 +14,10 @@ const BotsList = ({ bots }) => (
           name={name}
           world={world}
           server={server}
+          editBot={editBot}
           createdAt={createdAt}
+          manageBot={manageBot}
+          deleteBot={deleteBot}
         />
       </div>
     ))}
@@ -27,6 +30,9 @@ BotsList.defaultProps = {
 
 BotsList.propTypes = {
   bots: PropTypes.array,
+  editBot: PropTypes.func.isRequired,
+  manageBot: PropTypes.func.isRequired,
+  deleteBot: PropTypes.func.isRequired,
 };
 
 export default BotsList;

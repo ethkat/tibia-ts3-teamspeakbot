@@ -56,10 +56,11 @@ const BotFeaturesPage = ({ _id, showButton }) => (
 
 BotFeaturesPage.defaultProps = {
   showButton: true,
+  _id: '',
 };
 
 BotFeaturesPage.propTypes = {
-  _id: PropTypes.string.isRequired,
+  _id: PropTypes.string,
   showButton: PropTypes.bool,
 };
 

@@ -1,7 +1,13 @@
 import React from 'react';
 
 export default () => (
-  <div>
+  <div
+    style={{
+      position: 'fixed',
+      top: 0,
+      zIndex: 2,
+    }}
+  >
     <a
       target="_blank"
       href="https://github.com/ethkat/tibia-ts3-teamspeakbot"

@@ -31,10 +31,11 @@ class LoggedInLayout extends React.Component {
     const { children } = this.props;
     return (
       <div>
-        <GithubRibbon />
         <LoggedInNav />
-        {children}
-        <Footer />
+        <div className="main-container">
+          {children}
+        </div>
+        <Footer position="fixed" />
       </div>
     );
   }

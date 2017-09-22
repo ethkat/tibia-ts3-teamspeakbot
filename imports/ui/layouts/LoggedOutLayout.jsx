@@ -33,8 +33,10 @@ class LoggedOutLayout extends React.Component {
       <div>
         <GithubRibbon />
         <LoggedOutNav />
-        {children}
-        <Footer />
+        <div className="main-container">
+          {children}
+        </div>
+        <Footer position="" />
       </div>
     );
   }

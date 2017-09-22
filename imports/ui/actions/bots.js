@@ -1,5 +1,6 @@
-import { insertBot } from '/imports/api/bots/methods';
 import { showAlert } from '/imports/ui/actions/alerts';
+import { insertBot, removeBot, updateBot } from '/imports/api/bots/methods';
+
 
 export const OPEN_NEW_BOT_MODAL = 'OPEN_NEW_BOT_MODAL';
 
@@ -21,6 +22,47 @@ export const insertNewBot = ({ bot = {} } = {}, cb) => (
         dispatch(showAlert({
           type: 'success',
           message: 'Bot Created',
+        }));
+        cb(result);
+      }
+    });
+  }
+);
+
+export const deleteBot = ({ botId = '' } = {}, cb) => (
+  (dispatch) => {
+    removeBot.call({ botId }, (error, result) => {
+      if (error) {
+        const { message } = error;
+        dispatch(showAlert({
+          type: 'danger',
+          message,
+        }));
+      } else {
+        dispatch(showAlert({
+          type: 'success',
+          message: 'Bot Deleted',
+        }));
+        cb(result);
+      }
+    });
+  }
+);
+
+
+export const editBot = ({ bot = {} } = {}, cb) => (
+  (dispatch) => {
+    updateBot.call({ bot }, (error, result) => {
+      if (error) {
+        const { message } = error;
+        dispatch(showAlert({
+          type: 'danger',
+          message,
+        }));
+      } else {
+        dispatch(showAlert({
+          type: 'success',
+          message: 'Saved',
         }));
         cb(result);
       }
