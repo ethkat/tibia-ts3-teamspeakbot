@@ -69,6 +69,24 @@ let NewBotForm = ({ isEditMode, server, handleSubmit }) => (
     </div>
     <div className="form-group">
       <Field
+        name="username"
+        type="text"
+        label="Server Query Username"
+        placeholder="Server Query Username"
+        component={TextInput}
+      />
+    </div>
+    <div className="form-group">
+      <Field
+        name="password"
+        type="text"
+        label="Server Query User Password"
+        placeholder="Server Query User Password"
+        component={TextInput}
+      />
+    </div>
+    <div className="form-group">
+      <Field
         name="port"
         type="number"
         label="TS3 Address PORT"

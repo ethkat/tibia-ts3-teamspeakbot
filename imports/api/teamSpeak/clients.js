@@ -1,8 +1,10 @@
+import { mapTsError } from '/imports/api/teamSpeak/utils';
+
 export const getClientsList = async ({ teamspeak }) => (
   new Promise((resolve, reject) => {
     teamspeak.send('clientlist', (error, result) => {
       if (error) {
-        reject(error);
+        reject(mapTsError({ error }));
       } else {
         resolve(result);
       }
@@ -17,7 +19,7 @@ export const clientKick = async ({
   new Promise((resolve, reject) => {
     teamspeak.send('clientkick', kickData, (error, result) => {
       if (error) {
-        reject(error);
+        reject(mapTsError({ error }));
       } else {
         resolve(result);
       }
@@ -43,11 +45,15 @@ export const kickBotClients = async ({ teamspeak }) => (
 );
 
 export const findClient = async ({ teamspeak, botName }) => (
-  new Promise((resolve) => {
+  new Promise((resolve, reject) => {
     teamspeak.send('clientfind', {
       pattern: botName,
     }, (error, result) => {
-      resolve(result);
+      if (error) {
+        reject(mapTsError({ error }));
+      } else {
+        resolve(result);
+      }
     });
   })
 );

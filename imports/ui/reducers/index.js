@@ -5,7 +5,6 @@ import { routerReducer as routing } from 'react-router-redux';
 import kick from '/imports/ui/reducers/kick';
 import bots from '/imports/ui/reducers/bots';
 import lists from '/imports/ui/reducers/lists';
-import serverQueryUsers from '/imports/ui/reducers/serverQueryUsers';
 import botConfiguration from '/imports/ui/reducers/botConfiguration';
 
 
@@ -15,6 +14,5 @@ export default combineReducers({
   bots,
   lists,
   routing,
-  serverQueryUsers,
   botConfiguration,
 });

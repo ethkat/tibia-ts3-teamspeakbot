@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { showAlert } from '/imports/ui/actions/alerts';
 import { insertBot, removeBot, updateBot } from '/imports/api/bots/methods';
 
@@ -49,7 +50,6 @@ export const deleteBot = ({ botId = '' } = {}, cb) => (
   }
 );
 
-
 export const editBot = ({ bot = {} } = {}, cb) => (
   (dispatch) => {
     updateBot.call({ bot }, (error, result) => {
@@ -65,6 +65,25 @@ export const editBot = ({ bot = {} } = {}, cb) => (
           message: 'Saved',
         }));
         cb(result);
+      }
+    });
+  }
+);
+
+export const testBot = ({ botId = {} } = {}) => (
+  (dispatch) => {
+    Meteor.call('teamspeak.bot.test', { botId }, (error) => {
+      if (error) {
+        const { message } = error;
+        dispatch(showAlert({
+          type: 'danger',
+          message,
+        }));
+      } else {
+        dispatch(showAlert({
+          type: 'success',
+          message: 'Test End',
+        }));
       }
     });
   }

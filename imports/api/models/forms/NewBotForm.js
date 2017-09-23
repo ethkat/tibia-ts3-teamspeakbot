@@ -7,4 +7,6 @@ export default new SimpleSchema({
   server: String,
   address: String,
   serverId: String,
+  username: String,
+  password: String,
 });

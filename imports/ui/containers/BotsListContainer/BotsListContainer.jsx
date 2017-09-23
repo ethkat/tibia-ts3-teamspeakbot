@@ -22,6 +22,7 @@ class BotsListContainer extends React.Component {
       edit: false,
       initialValues: {},
     };
+    this.onTestBot = this.onTestBot.bind(this);
     this.onManageBot = this.onManageBot.bind(this);
     this.onDeleteBot = this.onDeleteBot.bind(this);
     this.onOpenModal = this.onOpenModal.bind(this);
@@ -81,6 +82,11 @@ class BotsListContainer extends React.Component {
     actions.deleteBot({ botId }, () => {});
   }
 
+  onTestBot({ botId }) {
+    const { actions } = this.props;
+    actions.testBot({ botId }, () => {});
+  }
+
   render() {
     const { bots, isOpen } = this.props;
     const { edit, initialValues } = this.state;
@@ -106,6 +112,7 @@ class BotsListContainer extends React.Component {
           />
           <BotsList
             bots={bots}
+            testBot={this.onTestBot}
             editBot={this.onEditBotInfo}
             deleteBot={this.onDeleteBot}
             manageBot={this.onManageBot}

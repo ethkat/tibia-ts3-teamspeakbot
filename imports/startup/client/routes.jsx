@@ -17,6 +17,7 @@ import PokePage from '/imports/ui/pages/PokePage/PokePage';
 import DragPage from '/imports/ui/pages/DragPage/DragPage';
 import BotsPage from '/imports/ui/pages/BotsPage/BotsPage';
 import KickPage from '/imports/ui/pages/KickPage/KickPage';
+import ListPage from '/imports/ui/pages/ListPage/ListPage';
 import ListsPage from '/imports/ui/pages/ListPage/ListsPage';
 import ScannPage from '/imports/ui/pages/ScannPage/ScannPage';
 import StatsPage from '/imports/ui/pages/StatsPage/StatsPage';
@@ -41,7 +42,8 @@ export default () => (
         <IndexRedirect to="bots" />
         <Route path="bots" component={BotsPage} />
         <Route path="bots/:_id" component={BotPage} />
-        <Route path="bot/list/:_id" component={ListsPage} />
+        <Route path="bot/lists/:_id" component={ListsPage} />
+        <Route path="bot/list/:_id" component={ListPage} />
         <Route path="bot/poke/:_id" component={PokePage} />
         <Route path="bot/drag/:_id" component={DragPage} />
         <Route path="bot/scanner/:_id" component={ScannPage} />

@@ -1,6 +1,6 @@
 export const FEATURES = [{
   id: 1,
-  to: '/dashboard/bot/list/',
+  to: '/dashboard/bot/lists/',
   name: 'Lists',
   image: '/images/features/lists.png',
   available: true,

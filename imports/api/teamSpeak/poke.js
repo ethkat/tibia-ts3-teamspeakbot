@@ -1,3 +1,5 @@
+import { mapTsError } from '/imports/api/teamSpeak/utils';
+
 export const sendPoke = async ({ clid, message: msg, teamspeak }) => (
   new Promise((resolve, reject) => {
     teamspeak.send('clientpoke', {
@@ -5,7 +7,7 @@ export const sendPoke = async ({ clid, message: msg, teamspeak }) => (
       clid,
     }, (error, result) => {
       if (error) {
-        reject(error);
+        reject(mapTsError({ error }));
       } else {
         resolve(result);
       }

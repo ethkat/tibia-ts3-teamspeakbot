@@ -1,3 +1,5 @@
+import { mapTsError } from '/imports/api/teamSpeak/utils';
+
 export const getChannelsAPI = async ({ teamspeak } = {}) => (
   new Promise((resolve, reject) => {
     teamspeak.send('channellist', (error, result) => {
@@ -14,7 +16,7 @@ export const createChannel = async ({ channel, teamspeak }) => (
       ...channel,
     }, (error, result) => {
       if (error) {
-        reject(error);
+        reject(mapTsError({ error }));
       } else {
         resolve({
           ...result,
@@ -29,7 +31,7 @@ export const deleteChannel = async ({ cid, teamspeak }) => (
   new Promise((resolve, reject) => {
     teamspeak.send('channeldelete', { cid, force: 1 }, (error, result) => {
       if (error) {
-        reject(error);
+        reject(mapTsError({ error }));
       } else {
         resolve(result);
       }
@@ -43,8 +45,11 @@ export const updateChannel = async ({
 }) => (
   new Promise((resolve, reject) => {
     teamspeak.send('channeledit', channelData, (error, result) => {
-      if (error) reject(error);
-      resolve(result);
+      if (error) {
+        reject(mapTsError({ error }));
+      } else {
+        resolve(result);
+      }
     });
   })
 );
@@ -55,8 +60,11 @@ export const dragAllToChannel = async ({
 }) => (
   new Promise((resolve, reject) => {
     teamspeak.send('clientmove', clientData, (error, result) => {
-      if (error) reject(error);
-      resolve(result);
+      if (error) {
+        reject(mapTsError({ error }));
+      } else {
+        resolve(result);
+      }
     });
   })
 );

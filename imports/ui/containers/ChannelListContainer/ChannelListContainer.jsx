@@ -46,7 +46,7 @@ class ChannelListContainer extends React.Component {
 
   onViewChannel({ _id }) {
     const { actions } = this.props;
-    actions.redirectTo({ to: `/dashboard/view-list/${_id}` });
+    actions.redirectTo({ to: `/dashboard/bot/list/${_id}` });
   }
 
   render() {

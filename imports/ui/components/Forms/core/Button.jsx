@@ -9,10 +9,12 @@ const Button = ({
   klass,
   theme,
   onClick,
+  disabled,
 }) => (
   <button
     style={{ cursor: 'pointer' }}
     type={type}
+    disabled={disabled}
     onClick={onClick}
     className={getButtonClass({ klass, theme })}
   >
@@ -26,6 +28,7 @@ Button.defaultProps = {
   klass: '',
   theme: 'btn-primary',
   onClick: () => {},
+  disabled: '',
 };
 
 Button.propTypes = {
@@ -34,6 +37,7 @@ Button.propTypes = {
   klass: PropTypes.string,
   theme: PropTypes.string,
   onClick: PropTypes.func,
+  disabled: PropTypes.string,
 };
 
 export default Button;

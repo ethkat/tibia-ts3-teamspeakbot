@@ -3,7 +3,6 @@ import { Accounts } from 'meteor/accounts-base';
 
 import { Bots } from '/imports/api/bots/Bots';
 import { SERVERS } from '/imports/utils/constants';
-import { ServerQueryUsers } from '/imports/api/bots/ServerQueryUsers';
 
 const worldsByServer = {
   tibiaRL: 'Zanera',
@@ -46,11 +45,7 @@ export default () => {
             server,
             serverId,
             ...bot,
-          }, (error, botId) => {
-            ServerQueryUsers.insert({
-              botId,
-              ...user,
-            });
+            ...user,
           });
         });
       }
