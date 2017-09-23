@@ -1,9 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import { Bots } from '/imports/api/bots/Bots';
+import { filterLists } from '/imports/utils/arrays';
 import { Channels } from '/imports/api/bots/Channels';
 import { createCron } from '/imports/api/tasks/config';
 import { ListItems } from '/imports/api/bots/ListItems';
-import { filterLists } from '/imports/utils/arrays';
+import { SyncedCron } from 'meteor/percolate:synced-cron';
 import { tibiaRlGetPlayersOnline } from '/imports/api/tibia/methods';
 import { updateTemspeakChannel } from '/imports/api/teamSpeak/methods';
 import { mediviaGetPlayersOnline } from '/imports/api/medivia/methods';
@@ -74,15 +75,15 @@ const updateChannelDescriptionByList = async ({
   }
 };
 
-export default () => (
-  Channels.find({
-    channelType: 'normal',
-  }).fetch().forEach(({
+const createListCronFromList = ({ list }) => {
+  const {
     _id: listId,
     cid,
     botId,
+    channelType,
     channelName,
-  }) => {
+  } = list;
+  if (channelType === 'normal') {
     createCron({
       async job() {
         const description = await updateChannelDescriptionByList({
@@ -96,5 +97,25 @@ export default () => (
       name: channelName,
       period: PERIOD,
     });
-  })
-);
+  }
+};
+
+Meteor.startup(function() {
+  Channels.find().observe({
+    added(doc) {
+      createListCronFromList({ list: doc });
+    },
+    changed(doc) {
+      const { channelName } = doc;
+      SyncedCron.remove(channelName);
+      createListCronFromList({ list: doc });
+    },
+    removed({ channelName }) {
+      SyncedCron.remove(channelName);
+    },
+  });
+
+  Channels.find().fetch().forEach(list => createListCronFromList({ list }));
+
+  SyncedCron.start();
+});
