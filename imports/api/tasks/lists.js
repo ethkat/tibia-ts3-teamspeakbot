@@ -1,43 +1,33 @@
 import { Meteor } from 'meteor/meteor';
+import {
+  logoutFromServer,
+  loginToServerQuery,
+  initTeamspeakClient,
+} from '/imports/api/teamSpeak/login-utils';
 import { Bots } from '/imports/api/bots/Bots';
 import { filterLists } from '/imports/utils/arrays';
 import { Channels } from '/imports/api/bots/Channels';
 import { createCron } from '/imports/api/tasks/config';
 import { ListItems } from '/imports/api/bots/ListItems';
-import { SyncedCron } from 'meteor/percolate:synced-cron';
+import { updateChannel } from '/imports/api/teamSpeak/channels';
 import { tibiaRlGetPlayersOnline } from '/imports/api/tibia/methods';
-import { updateTemspeakChannel } from '/imports/api/teamSpeak/methods';
 import { mediviaGetPlayersOnline } from '/imports/api/medivia/methods';
 import { sortByProfessions, buildCharacterDescription } from '/imports/api/teamSpeak/channels-utils';
-
-const updateBot = ({ botId: _id, hasError, message }) => (
-  Bots.update({ _id }, {
-    $set: {
-      error: hasError,
-      errorMessage: message,
-    },
-  })
-);
-
-const PERIOD = 'every 10 seconds';
 
 const methodByName = {
   tibiaRl: tibiaRlGetPlayersOnline,
   medivia: mediviaGetPlayersOnline,
 };
 
-const defaultErrorMsg = 'Something went wrong with your bot, please check the data you passed';
+const PERIOD = 'every 3 seconds';
 
-const updateChannelDescriptionByList = async ({
-  cid,
-  botId,
-  listId,
-}) => {
-  try {
-    const bot = Bots.findOne({ _id: botId });
+const mapListToChannelData = ({ world, server }) => (
+  async (list) => {
+    const {
+      _id: listId,
+      cid,
+    } = list;
     const items = ListItems.find({ listId }).fetch();
-
-    const { world, server } = bot;
 
     const playersOnline = await methodByName[server].call({ world });
 
@@ -60,62 +50,57 @@ const updateChannelDescriptionByList = async ({
 
     channelData.channel_description = description;
 
-    const channelUpdate = await updateTemspeakChannel.call({
-      botId,
-      channelData,
-    });
-
-    updateBot({ botId, hasError: false, message: '' });
-
-    return channelUpdate;
-  } catch (error) {
-    const errorToPass = error.message || defaultErrorMsg;
-    updateBot({ botId, hasError: true, message: errorToPass });
-    throw new Meteor.Error('ERROR!', errorToPass);
+    return channelData;
   }
-};
+);
 
-const createListCronFromList = ({ list }) => {
-  const {
-    _id: listId,
-    cid,
-    botId,
-    channelType,
-    channelName,
-  } = list;
-  if (channelType === 'normal') {
+export default () => {
+  Bots.find().fetch().forEach(({
+    _id: botId,
+    port,
+    name,
+    world,
+    server,
+    address,
+    serverId,
+    username,
+    password,
+  }) => {
     createCron({
       async job() {
-        const description = await updateChannelDescriptionByList({
-          cid,
-          botId,
-          listId,
-          channelName,
-        });
-        return description;
+        try {
+          const botLists = Channels.find({
+            botId,
+            channelType: 'normal',
+          }).fetch();
+
+          const newChannelDescriptions = await Promise.all(
+            botLists.map(mapListToChannelData({ world, server })),
+          );
+
+          const teamspeak = await loginToServerQuery({
+            port,
+            botId,
+            address,
+            serverId,
+            username,
+            password,
+            teamspeak: await initTeamspeakClient({ port, botId, address }),
+          });
+
+          const channelsUpdate = await Promise.all(
+            newChannelDescriptions.map(channelData =>
+              updateChannel({ teamspeak, channelData })),
+          );
+          await logoutFromServer({ botId, teamspeak });
+
+          return channelsUpdate;
+        } catch ({ message }) {
+          throw new Meteor.Error('CRONE TASK ERROR', { message });
+        }
       },
-      name: channelName,
+      name,
       period: PERIOD,
     });
-  }
-};
-
-Meteor.startup(function() {
-  Channels.find().observe({
-    added(doc) {
-      createListCronFromList({ list: doc });
-    },
-    changed(doc) {
-      const { channelName } = doc;
-      SyncedCron.remove(channelName);
-      createListCronFromList({ list: doc });
-    },
-    removed({ channelName }) {
-      SyncedCron.remove(channelName);
-    },
   });
-
-  Channels.find().fetch().forEach(list => createListCronFromList({ list }));
-
-  SyncedCron.start();
-});
+};

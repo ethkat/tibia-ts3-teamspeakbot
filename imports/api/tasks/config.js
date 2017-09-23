@@ -1,6 +1,7 @@
 import { SyncedCron } from 'meteor/percolate:synced-cron';
 
 SyncedCron.config({
+  log: false,
   collectionName: 'cronHistory',
 });
 
@@ -17,5 +18,3 @@ export const createCron = ({
     },
   });
 };
-
-SyncedCron.start();
