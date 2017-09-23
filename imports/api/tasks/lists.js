@@ -84,7 +84,7 @@ export default () => (
     channelName,
   }) => {
     createCron({
-      job: (async () => {
+      async job() {
         const description = await updateChannelDescriptionByList({
           cid,
           botId,
@@ -92,7 +92,7 @@ export default () => (
           channelName,
         });
         return description;
-      }),
+      },
       name: channelName,
       period: PERIOD,
     });
