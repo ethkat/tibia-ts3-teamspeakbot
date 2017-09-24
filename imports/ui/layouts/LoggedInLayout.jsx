@@ -8,7 +8,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import Footer from '/imports/ui/components/core/Footer';
 import * as redirectActions from '/imports/ui/actions/redirect';
 import LoggedInNav from '/imports/ui/components/core/LoggedInNav';
-import GithubRibbon from '/imports/ui/components/core/GithubRibbon';
+import WhiteList from '/imports/ui/components/Notifications/WhiteList';
 
 class LoggedInLayout extends React.Component {
   componentWillMount() {
@@ -33,6 +33,7 @@ class LoggedInLayout extends React.Component {
       <div>
         <LoggedInNav />
         <div className="main-container">
+          <WhiteList />
           {children}
         </div>
         <Footer position="fixed" />
