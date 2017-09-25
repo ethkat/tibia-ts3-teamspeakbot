@@ -56,9 +56,21 @@ export const openNewItemModal = ({ isItemModalOpen = true } = {}) => ({
   payload: { isItemModalOpen },
 });
 
-export const createItem = ({ name, listId }, cb) => (
+export const createItem = ({
+  name,
+  listId,
+  pokeIfDied,
+  pokeIfLvlUp,
+  pokeIfOnline,
+}, cb) => (
   (dispatch) => {
-    createListItem.call({ listId, name }, (error) => {
+    createListItem.call({
+      name,
+      listId,
+      pokeIfDied,
+      pokeIfLvlUp,
+      pokeIfOnline,
+    }, (error) => {
       if (error) {
         const { message } = error;
         dispatch(showAlert({
@@ -76,7 +88,15 @@ export const createItem = ({ name, listId }, cb) => (
   }
 );
 
-export const createItemFromUrl = ({ name, server, world, listId }, cb) => (
+export const createItemFromUrl = ({
+  name,
+  world,
+  server,
+  listId,
+  pokeIfDied,
+  pokeIfLvlUp,
+  pokeIfOnline,
+}, cb) => (
   (dispatch) => {
     Meteor.call(`${server}.get.guild.players`, { name, listId, world }, (error, result) => {
       if (error) {
@@ -90,6 +110,9 @@ export const createItemFromUrl = ({ name, server, world, listId }, cb) => (
           dispatch(createItem({
             name: characterName,
             listId,
+            pokeIfDied,
+            pokeIfLvlUp,
+            pokeIfOnline,
           }));
         });
         if (cb && typeof cb === 'function') cb();

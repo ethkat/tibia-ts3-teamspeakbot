@@ -1,5 +1,8 @@
 import SimpleSchema from 'simpl-schema';
 
 export default new SimpleSchema({
-  field: String,
+  name: String,
+  pokeIfDied: String,
+  pokeIfLvlUp: String,
+  pokeIfOnline: String,
 });

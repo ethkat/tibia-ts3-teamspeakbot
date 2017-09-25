@@ -21,7 +21,43 @@ const methodByName = {
 
 const PERIOD = 'every 3 seconds';
 
-const mapListToChannelData = ({ world, server }) => (
+const checksPokesToSend = ({
+  teamspeak,
+  onlinePlayersFromList,
+}) => (
+  async (item) => {
+    const {
+      pokeIfDied,
+      pokeIfLvlUp,
+      pokeIfOnline,
+    } = item;
+
+    const checkIfOnline = sortByProfessions({
+      items: filterLists(onlinePlayersFromList, [item], 'name', 'name'),
+    });
+    const isOnline = checkIfOnline.length > 0;
+
+    if (pokeIfDied === 'true') {
+      console.log('Llamado? al pokeIfDied');
+    }
+
+    if (pokeIfOnline === 'true' && isOnline) {
+      console.log('Llamado? al pokeIfOnline');
+    }
+
+    if (pokeIfLvlUp === 'true') {
+      console.log('Llamado? al pokeIfLvlUp');
+    }
+
+    return {};
+  }
+);
+
+const mapListToChannelData = ({
+  world,
+  server,
+  teamspeak,
+}) => (
   async (list) => {
     const {
       _id: listId,
@@ -47,6 +83,13 @@ const mapListToChannelData = ({ world, server }) => (
       description += buildCharacterDescription({ item });
       return description;
     });
+
+    await Promise.all(
+      items.map(checksPokesToSend({
+        teamspeak,
+        onlinePlayersFromList,
+      })),
+    );
 
     channelData.channel_description = description;
 
@@ -74,10 +117,6 @@ export default () => {
             channelType: 'normal',
           }).fetch();
 
-          const newChannelDescriptions = await Promise.all(
-            botLists.map(mapListToChannelData({ world, server })),
-          );
-
           const teamspeak = await loginToServerQuery({
             port,
             botId,
@@ -87,6 +126,16 @@ export default () => {
             password,
             teamspeak: await initTeamspeakClient({ port, botId, address }),
           });
+
+          const newChannelDescriptions = await Promise.all(
+            botLists.map(
+              mapListToChannelData({
+                world,
+                server,
+                teamspeak,
+              }),
+            ),
+          );
 
           const channelsUpdate = await Promise.all(
             newChannelDescriptions.map(channelData =>

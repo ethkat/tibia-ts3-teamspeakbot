@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Migrations } from 'meteor/percolate:migrations';
 
 import initData from '/imports/startup/server/seed';
 
@@ -23,6 +24,11 @@ import '/imports/api/tibia/methods';
 
 import '/imports/api/tasks/init';
 
+// Tasks
+
+import '/imports/api/migrations/index';
+
 Meteor.startup(() => {
   initData();
+  Migrations.migrateTo('latest');
 });

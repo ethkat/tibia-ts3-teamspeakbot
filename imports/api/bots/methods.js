@@ -29,13 +29,25 @@ export const insertBot = new ValidatedMethod({
 export const createListItem = new ValidatedMethod({
   name: 'listItems.create',
   validate: new SimpleSchema({
-    listId: { type: String },
     name: { type: String },
+    listId: { type: String },
+    pokeIfDied: { type: String },
+    pokeIfLvlUp: { type: String },
+    pokeIfOnline: { type: String },
   }).validator(),
-  async run({ listId, name }) {
+  async run({
+    name,
+    listId,
+    pokeIfDied,
+    pokeIfLvlUp,
+    pokeIfOnline,
+  }) {
     return ListItems.insert({
       name,
       listId,
+      pokeIfDied,
+      pokeIfLvlUp,
+      pokeIfOnline,
     });
   },
 });

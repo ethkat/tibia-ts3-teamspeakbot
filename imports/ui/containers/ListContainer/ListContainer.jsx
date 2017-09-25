@@ -35,7 +35,12 @@ class ListContainer extends React.Component {
     actions.openNewItemModal({ isItemModalOpen: false });
   }
 
-  onCreateListItem({ field: name }) {
+  onCreateListItem({
+    name,
+    pokeIfDied,
+    pokeIfLvlUp,
+    pokeIfOnline,
+  }) {
     const { _id: listId, bot, actions } = this.props;
     const { world, server } = bot;
 
@@ -45,9 +50,18 @@ class ListContainer extends React.Component {
         world,
         server,
         listId,
+        pokeIfDied,
+        pokeIfLvlUp,
+        pokeIfOnline,
       }, () => this.onCloseModal());
     } else {
-      actions.createItem({ listId, name }, () => this.onCloseModal());
+      actions.createItem({
+        name,
+        listId,
+        pokeIfDied,
+        pokeIfLvlUp,
+        pokeIfOnline,
+      }, () => this.onCloseModal());
     }
   }
 
