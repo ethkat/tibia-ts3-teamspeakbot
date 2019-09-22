@@ -1,4 +1,11 @@
+## modules
+
 node_modules
-.DS_Store
-settings
-.deploy
+
+## env
+
+.env
+
+## dist
+
+dist

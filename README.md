@@ -1,48 +1,54 @@
-## TS3 Tibia BOT
+## TS3 BOT for tibia RL server(s)
 
-## About.
+Before reading this, make sure you complete the steps from `SETUP_0.md` and `SETUP_1.md`.
 
-Teamspeak ethkat bot, its an opensource project, that try to help all those players that can't afford to pay a bot for they teamspeak, but they are in the need of one.
+## Availables Commands
 
-## Donate
+You can type `!help` on the bot private message to get all the messages you have permissions to execute, or simply reference this documentation.
 
-If this help you and your team, and you feel i deserve 5bucks, then use this [Paypal me link](paypal.me/ethaanpump)
+`!mk` - Mass kick, you can use it like `!mk ${message}` where `${message}` can be any message you want to sent to the kicked users.
 
-## How to Contribute.
+`!mp` - Mass Poke, you can use it like `!mp ${message}` where `${message}` can be any message you want to sent to all the users.
 
-Fork this, start this, play with the code, use it on your own teamspeak, put some featrues, make some issues, whathever you can do, do it, this is a community bot.
+`!mmove` - Mass Move, you can use it like `!mmove` this will move all the connected clients to the channel where you execute the command.
 
-## Development
+`!addEnemy` - Add Enemy, you can use it like, `!addEnemy ${characterName}` where `${characterName}` is the character to add into that list
 
-#### Install
+`!addEnemysByGuild` - **(experimental)** Add Enemy(s), you can use it like, `!addEnemysByGuild ${guildName}` where `${guildName}` is the guild name you want to add, beware using this, it can skip some players with special characters or titles.
 
-```bash
-git clone https://github.com/ethkat/tibia-ts3-teamspeakbot.git
-yarn install
-```
+`!removeEnemy` - Remove Enemy, you can use it like, `!removeEnemy ${characterName}` where `${characterName}` is the character to remove from the list.
 
-#### Running
+`!addFriend` - Add Enemy, you can use it like, `!addFriend ${characterName}` where `${characterName}` is the character to add into that list
 
-```bash
-yarn dev # start dev server at localhost:3000
-```
+`!addFriendsByGuild` - **(experimental)** Add Friend(s) by guild URL, you can use it like, `!addFriendsByGuild ${guildName}` where `${guildName}` is the guild name you want to add, beware using this, it can skip some players with special characters or titles.
 
-#### Lint
+`!removeFriend` - Remove Friend, you can use it like, `!removeFriend ${characterName}` where `${characterName}` is the character to add into that list
 
-```bash
-yarn lint
-```
+`!addNeutral` - Add Neutral, you can use it like, `!addNeutral ${characterName}` where `${characterName}` is the character to add into that list
 
-## Contributions
+`!removeNeutral` - Remove Neutral, you can use it like, `!removeNeutral ${characterName}` where `${characterName}` is the character to add into that list
 
-Everyone its invited to join and help us build this bot, to be one-step adaptable into any related OT/TibiaRL server.
+`!addMakersEnemy` - Add Enemy Maker, you can use it like, `!addMakersEnemy ${characterName}` where `${characterName}` is the character to add into that list
 
-### Donations
+`!removeMakersEnemy` - Remove Enemy Namers, you can use it like, `!removeMakersEnemy ${characterName}` where `${characterName}` is the character to add into that list
 
-Send some love to https://medivia.online/community/character/ethan%20pump
+`!addMakersFriend` - Add Friend Makers, you can use it like, `!addMakersFriend ${characterName}` where `${characterName}` is the character to add into that list
 
-### Authors
+`!addPossibleEnemys` - Add Possible Enemys, you can use it like, `!addPossibleEnemys ${characterName}` where `${characterName}` is the character to add into that list
 
-1.- [Katyadelarosa](github.com/Katyad)
+`!removePossibleEnemys` - Remove Possible Enemys, you can use it like, `!removePossibleEnemys ${characterName}` where `${characterName}` is the character to add into that list
 
-2.- [Ethaan](github.com/Ethaan)
+`!addNewAdmin` - Add new admin to the TS Bot server group, you can use it like `!addNewAdmin ${username}`, where username is the connected username on the TS
+
+`!removeAdmin` - Remove admin to the TS Bot server group, you can use it like `!removeAdmin ${username}`, where `${username}` is the connected username on the TS
+
+`!addNewModerator` - Add Moderator To the TS BOT Server group, you can use it like, `!addNewModerator ${username}` where `${username}` is the connected username on the TS
+
+`!removeModerator` - Remove Moderator To the TS BOT Server group, you can use it like, `!removeModerator ${username}` where `${username}` is the connected username on the TS
+
+## IMPORTANT NOTES
+
+1.- Dont delete the channel with the name of the bot (see src/utils/constants.js), because there is a chance this will break the relationship between DB and TS, if you do that, you will need to start from scratch again.
+
+2.- There is a know bug on the parser for the command addEnemysByGuild and addFriendsByGuild, where some character are not added, this just happend in weird scenarios where there is an spceial rank on the guild, and is really hard or complex to get them,
+

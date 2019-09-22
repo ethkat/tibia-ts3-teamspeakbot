@@ -1,49 +1,37 @@
 {
-  "name": "TeamspeakBot_Tibia",
+  "name": "carlin-backend",
+  "version": "0.0.1",
+  "description": "TS3 BOT",
+  "main": "server.js",
+  "private": true,
   "scripts": {
-    "dev": "meteor --settings settings/development.json",
-    "lint": "eslint --ext .js,.jsx imports"
+    "lint": "eslint .",
+    "ts3-start": "babel-node -r node_modules/dotenv/config ./src/scripts/start",
+    "ts3-setup": "babel-node -r node_modules/dotenv/config ./src/scripts/setup"
   },
-  "version": "1.0.0",
-  "repository": {
-    "url": "https://github.com/ethkat/tibia-ts3-teamspeakbot.git",
-    "type": "git"
-  },
-  "license": "MIT",
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
-    "@meteorjs/eslint-config-meteor": "^1.0.5",
-    "eslint": "^4.6.1",
-    "eslint-config-airbnb": "^15.1.0",
-    "eslint-import-resolver-meteor": "^0.4.0",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-meteor": "^4.1.4",
-    "eslint-plugin-react": "^7.3.0"
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-transform-async-to-generator": "^7.4.0",
+    "@babel/preset-env": "^7.4.3",
+    "babel-plugin-module-resolver": "^3.2.0",
+    "dotenv": "^7.0.0",
+    "eslint": "^5.16.0",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.11",
+    "ora": "^3.4.0"
   },
   "dependencies": {
-    "babel-eslint": "^7.2.3",
-    "babel-runtime": "^6.26.0",
-    "bootstrap": "4.0.0-beta",
-    "kue": "^0.11.6",
-    "lodash": "^4.17.4",
-    "medivia-api": "^0.0.7",
-    "meteor-node-stubs": "^0.2.11",
-    "moment": "^2.18.1",
-    "node-teamspeak-ethkat": "^1.0.12",
-    "popper.js": "^1.12.5",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
-    "react-modal": "^2.3.2",
-    "react-redux": "^5.0.6",
-    "react-router": "3.0",
-    "react-router-dom": "^4.2.2",
-    "react-router-redux": "^4.0.8",
-    "redux": "^3.7.2",
-    "redux-form": "^7.0.4",
-    "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0",
-    "simpl-schema": "^0.3.2",
-    "tether": "^1.4.0",
-    "tibia-api": "^0.0.8"
+    "express": "^4.16.4",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "mongoose": "^5.5.4",
+    "node-cron": "^2.0.3",
+    "request": "^2.88.0",
+    "tibia-api": "^0.0.18",
+    "ts3-nodejs-library": "^2.0.2"
   }
 }
