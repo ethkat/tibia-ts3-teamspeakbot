@@ -1,0 +1,14 @@
+{
+	"presets": ["@babel/preset-env"],
+	"plugins": [
+    ["module-resolver", {
+			"root": ["./"],
+			"alias": {
+				"src": "./src",
+        "api": "./src/api",
+        "utils": "./src/api/utils"
+			}
+		}],
+		["@babel/plugin-transform-async-to-generator"]
+  ]
+}
