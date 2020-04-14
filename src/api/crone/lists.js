@@ -47,16 +47,20 @@ const sortByProfessions = ({ online: onlineCharacters, dbCharacters }) => {
 const getInformationFromCharacters = async (characterNames = []) => (
   new Promise(async (resolve, reject) => {
     try {
+      const playersOnline = await tibiaAPI.getOnlinePlayers();
       const characterInformations = await Promise.all(characterNames.map(({
         type,
         characterName,
       }) => (
         new Promise(async (resolve) => {
           try {
-            const information = await tibiaAPI.getCharacterInformation(characterName);
-            information.kills.forEach((death) => {
-              death.type = type;
-            });
+            const information = playersOnline.find(({ name }) => name === characterName);
+
+            if (information && information.kills) {
+              information.kills.forEach((death) => {
+                death.type = type;
+              });
+            }
 
             resolve(information);
           } catch (error) {
@@ -64,8 +68,7 @@ const getInformationFromCharacters = async (characterNames = []) => (
           }
         })
       )));
-  
-      resolve(characterInformations);
+      resolve(characterInformations.filter((info) => info));
     } catch (error) {
       reject(error);
     }
@@ -134,7 +137,7 @@ const getNotPokedKills = async (kills = []) => (
 const mapCharactersToNames = ({ type, characterName }) => ({ type, characterName });
 
 export const startTasks = (teamspeak) => {
-  const listTask = cron.schedule('0-59/5 * * * * *', async () => {
+  const listTask = cron.schedule('0-59/2 * * * * *', async () => {
     const enemyCharacters = await Characters.find({ type: 'enemy' });
     const friendCharacters = await Characters.find({ type: 'friend' });
     const neutralCharacters = await Characters.find({ type: 'neutral' });
@@ -157,16 +160,14 @@ export const startTasks = (teamspeak) => {
     const playersOnline = [];
 
     if (allCharactersInformation && allCharactersInformation.length > 0) {
+
       allCharactersInformation.forEach((data) => {
-        if (data && data.kills) {
-          deathListByCharacters.push(...data.kills);
-        }
+        // TODO fix this
+        // if (data && data.kills) {
+        // deathListByCharacters.push(...data.kills);
+        // }
   
-        if (data && data.info) {
-          if (data.info.status === 'online') {
-            playersOnline.push(data.info);
-          }
-        }
+        playersOnline.push(data);
       });
     }
 
