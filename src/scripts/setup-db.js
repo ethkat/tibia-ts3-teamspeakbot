@@ -11,7 +11,6 @@ export const setupDB = async (spinner) => (
 
       resolve();
     } catch (error) {
-      console.log(error);
       reject(error);
     }
   })

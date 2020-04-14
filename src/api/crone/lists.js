@@ -1,8 +1,8 @@
 import cron from 'node-cron';
 import moment from 'moment';
-import TibiaAPI from 'tibia-api';
 import { findKey } from 'lodash';
 import { capitalize } from 'lodash';
+import TibiaAPI from '../tibia';
 import Characters from '../models/characters';
 import Meta, { updateMeta } from '../models/meta';
 import { sendMassPoke } from '../../scripts/client';
@@ -31,7 +31,7 @@ const sortByProfessions = ({ online: onlineCharacters, dbCharacters }) => {
   ));
 
   const nons = onlineCharacters.filter(({ vocation }) => vocation === 'None');
-  
+
   return {
     online: [
       ...sorcerers,
@@ -82,7 +82,7 @@ const buildCharacterDescription = ({ name, vocation, level }) => (
 );
 
 const generateDescription = (data = {}) => {
-  let description = '';
+  let description = '\n';
 
   const { online, dbCharacters } = data;
   online.forEach((character) => {
@@ -155,18 +155,21 @@ export const startTasks = (teamspeak) => {
 
     const deathListByCharacters = [];
     const playersOnline = [];
-    allCharactersInformation.forEach(({ info, kills, characters }) => {
-      deathListByCharacters.push(...kills);
 
-      const getOnlineCharacter = characters.find(({ isOnline, name }) => {
-        return isOnline && name === info.name.trim();
+    if (allCharactersInformation && allCharactersInformation.length > 0) {
+      console.log(allCharactersInformation);
+      allCharactersInformation.forEach((data) => {
+        if (data && data.kills) {
+          deathListByCharacters.push(...data.kills);
+        }
+  
+        if (data && data.info) {
+          if (data.info.status === 'online') {
+            playersOnline.push(data.info);
+          }
+        }
       });
-
-      playersOnline.push({
-        ...info,
-        ...getOnlineCharacter,
-      });
-    });
+    }
 
     const enemyOnlineOfflineData = generateDescription(sortByProfessions(getOnlineCharacters(playersOnline, enemyCharacters)));
     const friendOnlineOfflineData = generateDescription(sortByProfessions(getOnlineCharacters(playersOnline, friendCharacters)));
