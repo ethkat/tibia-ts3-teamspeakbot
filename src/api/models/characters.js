@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import TibiaAPI from 'tibia-api';
+import TibiaAPI from '../tibia';
 
 const { WORLD_NAME } = process.env;
 
@@ -31,13 +31,9 @@ export const removeCharacter = async (character) => (
 export const addCharactersByGuildName = async (guildName, type) => (
   new Promise(async (resolve, reject) => {
     try {
-      const guildInformation = await tibiaAPI.getGuildInformation({
-        guildUrl: `https://www.tibia.com/community/?subtopic=guilds&page=view&GuildName=${guildName}&action=characters`
-      });
+      const members = await tibiaAPI.getGuildInformation(guildName);
 
-      const { members, invitedMembers } = guildInformation;
-  
-      const characters = [...members, ...invitedMembers].map(({ name }) => ({ characterName: name, type }));
+      const characters = members.map(({ name }) => ({ characterName: name, type }));
   
       await Promise.all(characters.map(insertCharacter));
   

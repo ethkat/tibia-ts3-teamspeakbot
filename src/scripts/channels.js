@@ -31,6 +31,7 @@ export const updateChannel = async (teamspeak = {}, type, onlineData = {}, chann
       const { online, dbCharacters, description } = onlineData;
 
       const onlinePlayers = online ? online.length : 0;
+
       const charactersFromList = dbCharacters ? dbCharacters.length : 0;
   
       const newChannelName = `${channelName.replace(/ *\([^)]*\) */g, '')} (${onlinePlayers}/${charactersFromList})`;
@@ -44,7 +45,7 @@ export const updateChannel = async (teamspeak = {}, type, onlineData = {}, chann
       }
 
       await channelFromTs.edit({
-        channel_description: `Online ${onlinePlayers}/${charactersFromList} \n \n ${description}`,
+        channel_description: `Online ${onlinePlayers}/${charactersFromList} \n ${description}`,
         ...extraEditParams,
       });
 
