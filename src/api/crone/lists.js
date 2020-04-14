@@ -157,7 +157,6 @@ export const startTasks = (teamspeak) => {
     const playersOnline = [];
 
     if (allCharactersInformation && allCharactersInformation.length > 0) {
-      console.log(allCharactersInformation);
       allCharactersInformation.forEach((data) => {
         if (data && data.kills) {
           deathListByCharacters.push(...data.kills);
