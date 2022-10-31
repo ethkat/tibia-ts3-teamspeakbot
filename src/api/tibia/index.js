@@ -3,10 +3,22 @@ import axios from 'axios';
 const TIBIA_DATA_API_URL = 'https://api.tibiadata.com/v2/';
 
 export default class TibiaAPI {
-  constructor(worldName) {
+  constructor({ worldName }) {
     this.worldName = worldName;
   }
   
+  async getOnlinePlayers() {
+    const {
+      data: {
+        world: {
+          players_online: playersOnline,
+        }
+      }
+    } = await axios.get(`${TIBIA_DATA_API_URL}world/${this.worldName}.json`);
+
+    return playersOnline;
+  }
+
   async getCharacterInformation(characterName) {
     const {
       data: {
