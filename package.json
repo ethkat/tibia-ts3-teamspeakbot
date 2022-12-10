@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "lodash": "^4.17.19",
     "moment": "^2.24.0",
     "mongoose": "^5.7.5",
